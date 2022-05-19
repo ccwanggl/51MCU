@@ -1,0 +1,332 @@
+C51 COMPILER V9.60.0.0   MKEYBOARD                                                         05/01/2022 21:04:25 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MKEYBOARD
+OBJECT MODULE PLACED IN .\build\Debug\__\__\lib\mkeyboard.o
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.exe .\..\..\LIB\MKEYBOARD.C PRINT(.\build\Debug\__\__\lib\mkeyboard.lst) OMF
+                    -2 TABS(4) CODE NOCOND SYMBOLS OPTIMIZE(8,SPEED) SMALL ROM(LARGE) INCDIR(.\..\..\..\..\..\..\..\..\Keil_v5\C51\INC;.\src;
+                    -.\..\..\lib) DEFINE(__UVISION_VERSION=526) OBJECT(.\build\Debug\__\__\lib\mkeyboard.o)
+
+line level    source
+
+   1          #include <REG52.h>
+   2          #include "mkeyboard.h"
+   3          
+   4          
+   5          unsigned int keyboard()
+   6          {
+   7   1          int key_number = 0;
+   8   1      
+   9   1          P1 = 0xff;
+  10   1          P1 = P1 & 0xf7;
+  11   1      
+  12   1          if( (P1 & 0x80 )== 0 ) { key_number = 0; return key_number; }
+  13   1          if( (P1 & 0x40 )== 0 ) { key_number = 0; return key_number; }
+  14   1          if( (P1 & 0x20 )== 0 ) { key_number = 0; return key_number; }
+  15   1          if( (P1 & 0x10 )== 0 ) { key_number = 0; return key_number; }
+  16   1      
+  17   1          P1 = 0xff;
+  18   1          P1 = P1 & 0xfb;
+  19   1      
+  20   1          if( (P1 & 0x80 )== 0 ) { key_number = 3; return key_number; }
+  21   1          if( (P1 & 0x40 )== 0 ) { key_number = 6; return key_number; }
+  22   1          if( (P1 & 0x20 )== 0 ) { key_number = 9; return key_number; }
+  23   1          if( (P1 & 0x10 )== 0 ) { key_number = 0; return key_number; }
+  24   1          
+  25   1          
+  26   1          P1 = 0xff;
+  27   1          P1 = P1 & 0xfd;
+  28   1      
+  29   1          if( (P1 & 0x80 )== 0 ) { key_number = 2; return key_number; }
+  30   1          if( (P1 & 0x40 )== 0 ) { key_number = 5; return key_number; }
+  31   1          if( (P1 & 0x20 )== 0 ) { key_number = 8; return key_number; }
+  32   1          if( (P1 & 0x10 )== 0 ) { key_number = 0; return key_number; }
+  33   1          
+  34   1          
+  35   1          P1 = 0xff;
+  36   1          P1 = P1 & 0xfe;
+  37   1      
+  38   1          if( (P1 & 0x80 )== 0 ) { key_number = 1; return key_number; }
+  39   1          if( (P1 & 0x40 )== 0 ) { key_number = 4; return key_number; }
+  40   1          if( (P1 & 0x20 )== 0 ) { key_number = 7; return key_number; }
+  41   1          if( (P1 & 0x10 )== 0 ) { key_number = 0; return key_number; }
+  42   1      
+  43   1          return key_number;
+  44   1      }
+C51 COMPILER V9.60.0.0   MKEYBOARD                                                         05/01/2022 21:04:25 PAGE 2   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION keyboard (BEGIN)
+                                           ; SOURCE LINE # 5
+                                           ; SOURCE LINE # 6
+                                           ; SOURCE LINE # 7
+;---- Variable 'key_number' assigned to Register 'R6/R7' ----
+0000 E4                CLR     A
+0001 FF                MOV     R7,A
+0002 FE                MOV     R6,A
+                                           ; SOURCE LINE # 9
+0003 7590FF            MOV     P1,#0FFH
+                                           ; SOURCE LINE # 10
+0006 5390F7            ANL     P1,#0F7H
+                                           ; SOURCE LINE # 12
+0009 E590              MOV     A,P1
+000B 5480              ANL     A,#080H
+000D 7001              JNZ     ?C0001
+000F 22                RET     
+0010         ?C0001:
+                                           ; SOURCE LINE # 13
+0010 E590              MOV     A,P1
+0012 5440              ANL     A,#040H
+0014 7003              JNZ     ?C0003
+0016 FE                MOV     R6,A
+0017 FF                MOV     R7,A
+0018 22                RET     
+0019         ?C0003:
+                                           ; SOURCE LINE # 14
+0019 E590              MOV     A,P1
+001B 5420              ANL     A,#020H
+001D 7003              JNZ     ?C0004
+001F FE                MOV     R6,A
+0020 FF                MOV     R7,A
+0021 22                RET     
+0022         ?C0004:
+                                           ; SOURCE LINE # 15
+0022 E590              MOV     A,P1
+0024 5410              ANL     A,#010H
+0026 7003              JNZ     ?C0005
+0028 FE                MOV     R6,A
+0029 FF                MOV     R7,A
+002A 22                RET     
+002B         ?C0005:
+                                           ; SOURCE LINE # 17
+002B 7590FF            MOV     P1,#0FFH
+                                           ; SOURCE LINE # 18
+002E 5390FB            ANL     P1,#0FBH
+                                           ; SOURCE LINE # 20
+0031 E590              MOV     A,P1
+0033 5480              ANL     A,#080H
+0035 7004              JNZ     ?C0006
+0037 FE                MOV     R6,A
+0038 7F03              MOV     R7,#03H
+003A 22                RET     
+003B         ?C0006:
+                                           ; SOURCE LINE # 21
+003B E590              MOV     A,P1
+003D 5440              ANL     A,#040H
+003F 7004              JNZ     ?C0007
+0041 FE                MOV     R6,A
+C51 COMPILER V9.60.0.0   MKEYBOARD                                                         05/01/2022 21:04:25 PAGE 3   
+
+0042 7F06              MOV     R7,#06H
+0044 22                RET     
+0045         ?C0007:
+                                           ; SOURCE LINE # 22
+0045 E590              MOV     A,P1
+0047 5420              ANL     A,#020H
+0049 7004              JNZ     ?C0008
+004B FE                MOV     R6,A
+004C 7F09              MOV     R7,#09H
+004E 22                RET     
+004F         ?C0008:
+                                           ; SOURCE LINE # 23
+004F E590              MOV     A,P1
+0051 5410              ANL     A,#010H
+0053 7003              JNZ     ?C0009
+0055 FE                MOV     R6,A
+0056 FF                MOV     R7,A
+0057 22                RET     
+0058         ?C0009:
+                                           ; SOURCE LINE # 26
+0058 7590FF            MOV     P1,#0FFH
+                                           ; SOURCE LINE # 27
+005B 5390FD            ANL     P1,#0FDH
+                                           ; SOURCE LINE # 29
+005E E590              MOV     A,P1
+0060 5480              ANL     A,#080H
+0062 7004              JNZ     ?C0010
+0064 FE                MOV     R6,A
+0065 7F02              MOV     R7,#02H
+0067 22                RET     
+0068         ?C0010:
+                                           ; SOURCE LINE # 30
+0068 E590              MOV     A,P1
+006A 5440              ANL     A,#040H
+006C 7004              JNZ     ?C0011
+006E FE                MOV     R6,A
+006F 7F05              MOV     R7,#05H
+0071 22                RET     
+0072         ?C0011:
+                                           ; SOURCE LINE # 31
+0072 E590              MOV     A,P1
+0074 5420              ANL     A,#020H
+0076 7004              JNZ     ?C0012
+0078 FE                MOV     R6,A
+0079 7F08              MOV     R7,#08H
+007B 22                RET     
+007C         ?C0012:
+                                           ; SOURCE LINE # 32
+007C E590              MOV     A,P1
+007E 5410              ANL     A,#010H
+0080 7003              JNZ     ?C0013
+0082 FE                MOV     R6,A
+0083 FF                MOV     R7,A
+0084 22                RET     
+0085         ?C0013:
+                                           ; SOURCE LINE # 35
+0085 7590FF            MOV     P1,#0FFH
+                                           ; SOURCE LINE # 36
+0088 5390FE            ANL     P1,#0FEH
+                                           ; SOURCE LINE # 38
+008B E590              MOV     A,P1
+008D 5480              ANL     A,#080H
+C51 COMPILER V9.60.0.0   MKEYBOARD                                                         05/01/2022 21:04:25 PAGE 4   
+
+008F 7004              JNZ     ?C0014
+0091 FE                MOV     R6,A
+0092 7F01              MOV     R7,#01H
+0094 22                RET     
+0095         ?C0014:
+                                           ; SOURCE LINE # 39
+0095 E590              MOV     A,P1
+0097 5440              ANL     A,#040H
+0099 7004              JNZ     ?C0015
+009B FE                MOV     R6,A
+009C 7F04              MOV     R7,#04H
+009E 22                RET     
+009F         ?C0015:
+                                           ; SOURCE LINE # 40
+009F E590              MOV     A,P1
+00A1 5420              ANL     A,#020H
+00A3 7004              JNZ     ?C0016
+00A5 FE                MOV     R6,A
+00A6 7F07              MOV     R7,#07H
+00A8 22                RET     
+00A9         ?C0016:
+                                           ; SOURCE LINE # 41
+00A9 E590              MOV     A,P1
+00AB 5410              ANL     A,#010H
+00AD 7003              JNZ     ?C0017
+00AF FE                MOV     R6,A
+00B0 FF                MOV     R7,A
+00B1 22                RET     
+00B2         ?C0017:
+                                           ; SOURCE LINE # 43
+                                           ; SOURCE LINE # 44
+00B2         ?C0002:
+00B2 22                RET     
+             ; FUNCTION keyboard (END)
+
+C51 COMPILER V9.60.0.0   MKEYBOARD                                                         05/01/2022 21:04:25 PAGE 5   
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+P0 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0080H  1
+P1 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0090H  1
+P2 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A0H  1
+P3 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B0H  1
+T0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B4H  1
+AC . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D6H  1
+T1 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B5H  1
+T2 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0090H  1
+EA . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AFH  1
+IE . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A8H  1
+EXF2 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CEH  1
+RD . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B7H  1
+ES . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ACH  1
+IP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B8H  1
+RI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0098H  1
+INT0 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B2H  1
+CY . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D7H  1
+TI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0099H  1
+INT1 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B3H  1
+RCAP2H . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CBH  1
+PS . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BCH  1
+SP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0081H  1
+T2EX . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0091H  1
+OV . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D2H  1
+RCAP2L . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CAH  1
+C_T2 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C9H  1
+WR . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B6H  1
+RCLK . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CDH  1
+TCLK . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CCH  1
+SBUF . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0099H  1
+PCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0087H  1
+SCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0098H  1
+TMOD . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0089H  1
+TCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0088H  1
+IE0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0089H  1
+IE1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008BH  1
+B. . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F0H  1
+CP_RL2 . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C8H  1
+ACC. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00E0H  1
+ET0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A9H  1
+ET1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ABH  1
+TF0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008DH  1
+ET2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ADH  1
+TF1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008FH  1
+TF2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CFH  1
+RB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009AH  1
+TH0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008CH  1
+EX0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A8H  1
+IT0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0088H  1
+TH1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008DH  1
+TB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009BH  1
+EX1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AAH  1
+IT1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008AH  1
+TH2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CDH  1
+P. . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D0H  1
+SM0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009FH  1
+TL0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008AH  1
+C51 COMPILER V9.60.0.0   MKEYBOARD                                                         05/01/2022 21:04:25 PAGE 6   
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+SM1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009EH  1
+TL1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008BH  1
+SM2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009DH  1
+TL2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CCH  1
+PT0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B9H  1
+PT1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BBH  1
+RS0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D3H  1
+keyboard . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  key_number . . . . . . . . . . . . .  * REG *  DATA   INT      0006H  2
+PT2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BDH  1
+TR0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008CH  1
+RS1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D4H  1
+TR1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008EH  1
+TR2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CAH  1
+PX0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B8H  1
+PX1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BAH  1
+DPH. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0083H  1
+DPL. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0082H  1
+EXEN2. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CBH  1
+REN. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009CH  1
+T2CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C8H  1
+RXD. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B0H  1
+TXD. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B1H  1
+F0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D5H  1
+PSW. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D0H  1
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    179    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

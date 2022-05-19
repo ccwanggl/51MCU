@@ -1,0 +1,255 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              05/13/2022 12:44:14 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\build\Debug\src\main.o
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.exe .\SRC\MAIN.C PRINT(.\build\Debug\src\main.lst) OMF2 TABS(4) CODE NOCOND 
+                    -SYMBOLS OPTIMIZE(8,SPEED) SMALL ROM(LARGE) INCDIR(.\..\..\..\..\..\..\..\Keil_v5\C51\INC;.\src) DEFINE(__UVISION_VERSION
+                    -=526) OBJECT(.\build\Debug\src\main.o)
+
+line level    source
+
+   1          #include <REG52.h>
+   2          #include "oled.h"
+   3          #include "bmp.h"
+   4          
+   5           int main(void)
+   6           {  
+   7   1              u8 t;
+   8   1              OLED_Init();            //³õÊ¼»¯OLED  
+   9   1              OLED_Clear(); 
+  10   1          
+  11   1              t=' ';
+  12   1              OLED_ShowCHinese(0,0,0);//ÖÐ
+  13   1              OLED_ShowCHinese(18,0,1);//¾°
+  14   1              OLED_ShowCHinese(36,0,2);//Ô°
+  15   1              OLED_ShowCHinese(54,0,3);//µç
+  16   1              OLED_ShowCHinese(72,0,4);//×Ó
+  17   1              OLED_ShowCHinese(90,0,5);//¿Æ
+  18   1              OLED_ShowCHinese(108,0,6);//¼¼
+  19   1          while(1) 
+  20   1          {       
+  21   2              /*
+  22   2              OLED_Clear();
+  23   2              OLED_ShowCHinese(0,0,0);//ÖÐ
+  24   2              OLED_ShowCHinese(18,0,1);//¾°
+  25   2              OLED_ShowCHinese(36,0,2);//Ô°
+  26   2              OLED_ShowCHinese(54,0,3);//µç
+  27   2              OLED_ShowCHinese(72,0,4);//×Ó
+  28   2              OLED_ShowCHinese(90,0,5);//¿Æ
+  29   2              OLED_ShowCHinese(108,0,6);//¼¼
+  30   2              OLED_ShowString(6,3,"0.96' OLED TEST",16);
+  31   2              //OLED_ShowString(8,2,"ZHONGJINGYUAN");  
+  32   2           // OLED_ShowString(20,4,"2014/05/01");  
+  33   2              OLED_ShowString(0,6,"ASCII:",16);  
+  34   2              OLED_ShowString(63,6,"CODE:",16);  
+  35   2              OLED_ShowChar(48,6,t,16);//ÏÔÊ¾ASCII×Ö·û       
+  36   2              t++;
+  37   2              if(t>'~')t=' ';
+  38   2              OLED_ShowNum(103,6,t,3,16);//ÏÔÊ¾ASCII×Ö·ûµÄÂëÖµ    
+  39   2                  delay_ms(8000);
+  40   2              delay_ms(8000);
+  41   2      
+  42   2                          delay_ms(8000);
+  43   2              delay_ms(8000);
+  44   2              delay_ms(8000);
+  45   2              OLED_DrawBMP(0,0,128,8,BMP1);  //Í¼Æ¬ÏÔÊ¾(Í¼Æ¬ÏÔÊ¾É÷ÓÃ£¬Éú³ÉµÄ×Ö±í½Ï´ó£¬»áÕ¼ÓÃ½Ï¶à¿Õ¼ä£¬FLASH¿Õ¼ä8KÒÔÏÂÉ
+             -÷ÓÃ)
+  46   2              delay_ms(8000);
+  47   2                          delay_ms(8000);
+  48   2              delay_ms(8000);
+  49   2              delay_ms(8000);
+  50   2              OLED_DrawBMP(0,0,128,8,BMP1);
+  51   2              delay_ms(8000);
+  52   2                          delay_ms(8000);
+C51 COMPILER V9.60.0.0   MAIN                                                              05/13/2022 12:44:14 PAGE 2   
+
+  53   2              delay_ms(8000);
+  54   2              delay_ms(8000);
+  55   2              */
+  56   2          }     
+  57   1          
+  58   1      }
+  59              
+C51 COMPILER V9.60.0.0   MAIN                                                              05/13/2022 12:44:14 PAGE 3   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION main (BEGIN)
+                                           ; SOURCE LINE # 5
+                                           ; SOURCE LINE # 6
+                                           ; SOURCE LINE # 8
+0000 120000      E     LCALL   OLED_Init
+                                           ; SOURCE LINE # 9
+0003 120000      E     LCALL   OLED_Clear
+                                           ; SOURCE LINE # 11
+0006 750020      R     MOV     t,#020H
+                                           ; SOURCE LINE # 12
+0009 E4                CLR     A
+000A FB                MOV     R3,A
+000B FD                MOV     R5,A
+000C FF                MOV     R7,A
+000D 120000      E     LCALL   _OLED_ShowCHinese
+                                           ; SOURCE LINE # 13
+0010 7B01              MOV     R3,#01H
+0012 E4                CLR     A
+0013 FD                MOV     R5,A
+0014 7F12              MOV     R7,#012H
+0016 120000      E     LCALL   _OLED_ShowCHinese
+                                           ; SOURCE LINE # 14
+0019 7B02              MOV     R3,#02H
+001B E4                CLR     A
+001C FD                MOV     R5,A
+001D 7F24              MOV     R7,#024H
+001F 120000      E     LCALL   _OLED_ShowCHinese
+                                           ; SOURCE LINE # 15
+0022 7B03              MOV     R3,#03H
+0024 E4                CLR     A
+0025 FD                MOV     R5,A
+0026 7F36              MOV     R7,#036H
+0028 120000      E     LCALL   _OLED_ShowCHinese
+                                           ; SOURCE LINE # 16
+002B 7B04              MOV     R3,#04H
+002D E4                CLR     A
+002E FD                MOV     R5,A
+002F 7F48              MOV     R7,#048H
+0031 120000      E     LCALL   _OLED_ShowCHinese
+                                           ; SOURCE LINE # 17
+0034 7B05              MOV     R3,#05H
+0036 E4                CLR     A
+0037 FD                MOV     R5,A
+0038 7F5A              MOV     R7,#05AH
+003A 120000      E     LCALL   _OLED_ShowCHinese
+                                           ; SOURCE LINE # 18
+003D 7B06              MOV     R3,#06H
+003F E4                CLR     A
+0040 FD                MOV     R5,A
+0041 7F6C              MOV     R7,#06CH
+0043 120000      E     LCALL   _OLED_ShowCHinese
+0046         ?C0001:
+                                           ; SOURCE LINE # 19
+                                           ; SOURCE LINE # 20
+                                           ; SOURCE LINE # 56
+0046 80FE              SJMP    ?C0001
+             ; FUNCTION main (END)
+
+C51 COMPILER V9.60.0.0   MAIN                                                              05/13/2022 12:44:14 PAGE 4   
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+P0 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0080H  1
+P1 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0090H  1
+P2 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A0H  1
+P3 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B0H  1
+T0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B4H  1
+AC . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D6H  1
+T1 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B5H  1
+T2 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0090H  1
+EA . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AFH  1
+IE . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A8H  1
+BMP1 . . . . . . . . . . . . . . . . .  PUBLIC   CODE   ARRAY    0000H  1024
+BMP2 . . . . . . . . . . . . . . . . .  PUBLIC   CODE   ARRAY    0400H  1024
+EXF2 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CEH  1
+RD . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B7H  1
+ES . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ACH  1
+IP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B8H  1
+RI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0098H  1
+OLED_Init. . . . . . . . . . . . . . .  EXTERN   CODE   PROC     -----  -----
+INT0 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B2H  1
+CY . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D7H  1
+TI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0099H  1
+INT1 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B3H  1
+RCAP2H . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CBH  1
+PS . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BCH  1
+SP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0081H  1
+T2EX . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0091H  1
+OV . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D2H  1
+RCAP2L . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CAH  1
+main . . . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  t. . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0000H  1
+C_T2 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C9H  1
+WR . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B6H  1
+RCLK . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CDH  1
+TCLK . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CCH  1
+SBUF . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0099H  1
+PCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0087H  1
+SCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0098H  1
+OLED_SDIN. . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A7H  1
+TMOD . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0089H  1
+TCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0088H  1
+IE0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0089H  1
+IE1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008BH  1
+B. . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F0H  1
+CP_RL2 . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C8H  1
+ACC. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00E0H  1
+ET0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A9H  1
+ET1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ABH  1
+TF0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008DH  1
+ET2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ADH  1
+TF1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008FH  1
+TF2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CFH  1
+RB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009AH  1
+TH0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008CH  1
+_OLED_ShowCHinese. . . . . . . . . . .  EXTERN   CODE   PROC     -----  -----
+EX0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A8H  1
+IT0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0088H  1
+TH1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008DH  1
+C51 COMPILER V9.60.0.0   MAIN                                                              05/13/2022 12:44:14 PAGE 5   
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+TB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009BH  1
+EX1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AAH  1
+IT1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008AH  1
+TH2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CDH  1
+P. . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D0H  1
+SM0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009FH  1
+TL0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008AH  1
+SM1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009EH  1
+TL1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008BH  1
+SM2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009DH  1
+TL2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CCH  1
+PT0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B9H  1
+PT1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BBH  1
+RS0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D3H  1
+PT2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BDH  1
+TR0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008CH  1
+RS1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D4H  1
+TR1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008EH  1
+TR2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CAH  1
+PX0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B8H  1
+PX1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BAH  1
+DPH. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0083H  1
+DPL. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0082H  1
+EXEN2. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CBH  1
+REN. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009CH  1
+T2CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C8H  1
+OLED_SCL . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A6H  1
+RXD. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B0H  1
+OLED_Clear . . . . . . . . . . . . . .  EXTERN   CODE   PROC     -----  -----
+TXD. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B1H  1
+F0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D5H  1
+PSW. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D0H  1
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     72    ----
+   CONSTANT SIZE    =   2048    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

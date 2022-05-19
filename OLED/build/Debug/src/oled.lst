@@ -1,0 +1,1869 @@
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE OLED
+OBJECT MODULE PLACED IN .\build\Debug\src\oled.o
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.exe .\SRC\OLED.C PRINT(.\build\Debug\src\oled.lst) OMF2 TABS(4) CODE NOCOND 
+                    -SYMBOLS OPTIMIZE(8,SPEED) SMALL ROM(LARGE) INCDIR(.\..\..\..\..\..\..\..\Keil_v5\C51\INC;.\src) DEFINE(__UVISION_VERSION
+                    -=526) OBJECT(.\build\Debug\src\oled.o)
+
+line level    source
+
+   1          #include "oled.h"
+   2          #include "oledfont.h"    
+   3          void delay_ms(unsigned int ms)
+   4          {                         
+   5   1          unsigned int a;
+   6   1          while(ms)
+   7   1          {
+   8   2              a=1800;
+   9   2              while(a--);
+  10   2              ms--;
+  11   2          }
+  12   1          return;
+  13   1      }
+  14          
+  15          //IIC Start
+  16          
+  17          void IIC_Start()
+  18          {
+  19   1      
+  20   1          OLED_SCLK_Set() ;
+  21   1          OLED_SDIN_Set();
+  22   1          OLED_SDIN_Clr();
+  23   1          OLED_SCLK_Clr();
+  24   1      }
+  25          
+  26          //IIC Stop
+  27          
+  28          void IIC_Stop()
+  29          {
+  30   1      OLED_SCLK_Set() ;
+  31   1      //  OLED_SCLK_Clr();
+  32   1          OLED_SDIN_Clr();
+  33   1          OLED_SDIN_Set();
+  34   1          
+  35   1      }
+  36          
+  37          void IIC_Wait_Ack()
+  38          {
+  39   1      
+  40   1          //GPIOB->CRH &= 0XFFF0FFFF; //设置PB12为上拉输入模式
+  41   1          //GPIOB->CRH |= 0x00080000;
+  42   1      //  OLED_SDA = 1;
+  43   1      //  delay_us(1);
+  44   1          //OLED_SCL = 1;
+  45   1          //delay_us(50000);
+  46   1      /*  while(1)
+  47   1          {
+  48   1              if(!OLED_SDA)               //判断是否接收到OLED 应答信号
+  49   1              {
+  50   1                  //GPIOB->CRH &= 0XFFF0FFFF; //设置PB12为通用推免输出模式
+  51   1                  //GPIOB->CRH |= 0x00030000;
+  52   1                  return;
+  53   1              }
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 2   
+
+  54   1          }
+  55   1      */
+  56   1          OLED_SCLK_Set() ;
+  57   1          OLED_SCLK_Clr();
+  58   1      }
+  59          /**********************************************
+  60          // IIC Write byte
+  61          **********************************************/
+  62          
+  63          void Write_IIC_Byte(unsigned char IIC_Byte)
+  64          {
+  65   1          unsigned char i;
+  66   1          unsigned char m,da;
+  67   1          da=IIC_Byte;
+  68   1          OLED_SCLK_Clr();
+  69   1          for(i=0;i<8;i++)        
+  70   1          {
+  71   2                  m=da;
+  72   2              //  OLED_SCLK_Clr();
+  73   2              m=m&0x80;
+  74   2              if(m==0x80)
+  75   2              {OLED_SDIN_Set();}
+  76   2              else OLED_SDIN_Clr();
+  77   2                  da=da<<1;
+  78   2              OLED_SCLK_Set();
+  79   2              OLED_SCLK_Clr();
+  80   2              }
+  81   1      
+  82   1      
+  83   1      }
+  84          /**********************************************
+  85          // IIC Write Command
+  86          **********************************************/
+  87          void Write_IIC_Command(unsigned char IIC_Command)
+  88          {
+  89   1         IIC_Start();
+  90   1         Write_IIC_Byte(0x78);            //Slave address,SA0=0
+  91   1          IIC_Wait_Ack(); 
+  92   1         Write_IIC_Byte(0x00);            //write command
+  93   1          IIC_Wait_Ack(); 
+  94   1         Write_IIC_Byte(IIC_Command); 
+  95   1          IIC_Wait_Ack(); 
+  96   1         IIC_Stop();
+  97   1      }
+  98          /**********************************************
+  99          // IIC Write Data
+ 100          **********************************************/
+ 101          void Write_IIC_Data(unsigned char IIC_Data)
+ 102          {
+ 103   1         IIC_Start();
+ 104   1         Write_IIC_Byte(0x78);            //D/C#=0; R/W#=0
+ 105   1          IIC_Wait_Ack(); 
+ 106   1         Write_IIC_Byte(0x40);            //write data
+ 107   1          IIC_Wait_Ack(); 
+ 108   1         Write_IIC_Byte(IIC_Data);
+ 109   1          IIC_Wait_Ack(); 
+ 110   1         IIC_Stop();
+ 111   1      }
+ 112          void OLED_WR_Byte(unsigned dat,unsigned cmd)
+ 113          {
+ 114   1          if(cmd)
+ 115   1                  {
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 3   
+
+ 116   2      
+ 117   2         Write_IIC_Data(dat);
+ 118   2         
+ 119   2              }
+ 120   1          else {
+ 121   2         Write_IIC_Command(dat);
+ 122   2              
+ 123   2          }
+ 124   1      
+ 125   1      
+ 126   1      }
+ 127          
+ 128          /********************************************
+ 129          // fill_Picture
+ 130          ********************************************/
+ 131          void fill_picture(unsigned char fill_Data)
+ 132          {
+ 133   1          unsigned char m,n;
+ 134   1          for(m=0;m<8;m++)
+ 135   1          {
+ 136   2              OLED_WR_Byte(0xb0+m,0);     //page0-page1
+ 137   2              OLED_WR_Byte(0x00,0);       //low column start address
+ 138   2              OLED_WR_Byte(0x10,0);       //high column start address
+ 139   2              for(n=0;n<128;n++)
+ 140   2                  {
+ 141   3                      OLED_WR_Byte(fill_Data,1);
+ 142   3                  }
+ 143   2          }
+ 144   1      }
+ 145          
+ 146          
+ 147          /***********************Delay****************************************/
+ 148          void Delay_50ms(unsigned int Del_50ms)
+ 149          {
+ 150   1          unsigned int m;
+ 151   1          for(;Del_50ms>0;Del_50ms--)
+ 152   1              for(m=6245;m>0;m--);
+ 153   1      }
+ 154          
+ 155          void Delay_1ms(unsigned int Del_1ms)
+ 156          {
+ 157   1          unsigned char j;
+ 158   1          while(Del_1ms--)
+ 159   1          {   
+ 160   2              for(j=0;j<123;j++);
+ 161   2          }
+ 162   1      }
+ 163          
+ 164          //坐标设置
+ 165          
+ 166              void OLED_Set_Pos(unsigned char x, unsigned char y) 
+ 167          {   OLED_WR_Byte(0xb0+y,OLED_CMD);
+ 168   1          OLED_WR_Byte(((x&0xf0)>>4)|0x10,OLED_CMD);
+ 169   1          OLED_WR_Byte((x&0x0f),OLED_CMD); 
+ 170   1      }         
+ 171          //开启OLED显示    
+ 172          void OLED_Display_On(void)
+ 173          {
+ 174   1          OLED_WR_Byte(0X8D,OLED_CMD);  //SET DCDC命令
+ 175   1          OLED_WR_Byte(0X14,OLED_CMD);  //DCDC ON
+ 176   1          OLED_WR_Byte(0XAF,OLED_CMD);  //DISPLAY ON
+ 177   1      }
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 4   
+
+ 178          //关闭OLED显示     
+ 179          void OLED_Display_Off(void)
+ 180          {
+ 181   1          OLED_WR_Byte(0X8D,OLED_CMD);  //SET DCDC命令
+ 182   1          OLED_WR_Byte(0X10,OLED_CMD);  //DCDC OFF
+ 183   1          OLED_WR_Byte(0XAE,OLED_CMD);  //DISPLAY OFF
+ 184   1      }                    
+ 185          //清屏函数,清完屏,整个屏幕是黑色的!和没点亮一样!!!    
+ 186          void OLED_Clear(void)  
+ 187          {  
+ 188   1          u8 i,n;         
+ 189   1          for(i=0;i<8;i++)  
+ 190   1          {  
+ 191   2              OLED_WR_Byte (0xb0+i,OLED_CMD);    //设置页地址（0~7）
+ 192   2              OLED_WR_Byte (0x00,OLED_CMD);      //设置显示位置—列低地址
+ 193   2              OLED_WR_Byte (0x10,OLED_CMD);      //设置显示位置—列高地址   
+ 194   2              for(n=0;n<128;n++)OLED_WR_Byte(0,OLED_DATA); 
+ 195   2          } //更新显示
+ 196   1      }
+ 197          void OLED_On(void)  
+ 198          {  
+ 199   1          u8 i,n;         
+ 200   1          for(i=0;i<8;i++)  
+ 201   1          {  
+ 202   2              OLED_WR_Byte (0xb0+i,OLED_CMD);    //设置页地址（0~7）
+ 203   2              OLED_WR_Byte (0x00,OLED_CMD);      //设置显示位置—列低地址
+ 204   2              OLED_WR_Byte (0x10,OLED_CMD);      //设置显示位置—列高地址   
+ 205   2              for(n=0;n<128;n++)OLED_WR_Byte(1,OLED_DATA); 
+ 206   2          } //更新显示
+ 207   1      }
+ 208          //在指定位置显示一个字符,包括部分字符
+ 209          //x:0~127
+ 210          //y:0~63
+ 211          //mode:0,反白显示;1,正常显示                 
+ 212          //size:选择字体 16/12 
+ 213          void OLED_ShowChar(u8 x,u8 y,u8 chr,u8 Char_Size)
+ 214          {       
+ 215   1          unsigned char c=0,i=0;  
+ 216   1              c=chr-' ';//得到偏移后的值          
+ 217   1              if(x>Max_Column-1){x=0;y=y+2;}
+ 218   1              if(Char_Size ==16)
+ 219   1                  {
+ 220   2                  OLED_Set_Pos(x,y);  
+ 221   2                  for(i=0;i<8;i++)
+ 222   2                  OLED_WR_Byte(F8X16[c*16+i],OLED_DATA);
+ 223   2                  OLED_Set_Pos(x,y+1);
+ 224   2                  for(i=0;i<8;i++)
+ 225   2                  OLED_WR_Byte(F8X16[c*16+i+8],OLED_DATA);
+ 226   2                  }
+ 227   1                  else {  
+ 228   2                      OLED_Set_Pos(x,y);
+ 229   2                      for(i=0;i<6;i++)
+ 230   2                      OLED_WR_Byte(F6x8[c][i],OLED_DATA);
+ 231   2                      
+ 232   2                  }
+ 233   1      }
+ 234          //m^n函数
+ 235          u32 oled_pow(u8 m,u8 n)
+ 236          {
+ 237   1          u32 result=1;    
+ 238   1          while(n--)result*=m;    
+ 239   1          return result;
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 5   
+
+ 240   1      }                 
+ 241          //显示2个数字
+ 242          //x,y :起点坐标  
+ 243          //len :数字的位数
+ 244          //size:字体大小
+ 245          //mode:模式 0,填充模式;1,叠加模式
+ 246          //num:数值(0~4294967295);             
+ 247          void OLED_ShowNum(u8 x,u8 y,u32 num,u8 len,u8 size2)
+ 248          {           
+ 249   1          u8 t,temp;
+ 250   1          u8 enshow=0;                           
+ 251   1          for(t=0;t<len;t++)
+ 252   1          {
+ 253   2              temp=(num/oled_pow(10,len-t-1))%10;
+ 254   2              if(enshow==0&&t<(len-1))
+ 255   2              {
+ 256   3                  if(temp==0)
+ 257   3                  {
+ 258   4                      OLED_ShowChar(x+(size2/2)*t,y,' ',size2);
+ 259   4                      continue;
+ 260   4                  }else enshow=1; 
+ 261   3                   
+ 262   3              }
+ 263   2              OLED_ShowChar(x+(size2/2)*t,y,temp+'0',size2); 
+ 264   2          }
+ 265   1      } 
+ 266          //显示一个字符号串
+ 267          void OLED_ShowString(u8 x,u8 y,u8 *chr,u8 Char_Size)
+ 268          {
+ 269   1          unsigned char j=0;
+ 270   1          while (chr[j]!='\0')
+ 271   1          {       OLED_ShowChar(x,y,chr[j],Char_Size);
+ 272   2                  x+=8;
+ 273   2              if(x>120){x=0;y+=2;}
+ 274   2                  j++;
+ 275   2          }
+ 276   1      }
+ 277          //显示汉字
+ 278          void OLED_ShowCHinese(u8 x,u8 y,u8 no)
+ 279          {                   
+ 280   1          u8 t,adder=0;
+ 281   1          OLED_Set_Pos(x,y);  
+ 282   1          for(t=0;t<16;t++)
+ 283   1              {
+ 284   2                      OLED_WR_Byte(Hzk[2*no][t],OLED_DATA);
+ 285   2                      adder+=1;
+ 286   2           }  
+ 287   1              OLED_Set_Pos(x,y+1);    
+ 288   1          for(t=0;t<16;t++)
+ 289   1                  {   
+ 290   2                      OLED_WR_Byte(Hzk[2*no+1][t],OLED_DATA);
+ 291   2                      adder+=1;
+ 292   2            }                 
+ 293   1      }
+ 294          /***********功能描述：显示显示BMP图片128×64起始点坐标(x,y),x的范围0～127，y为页的范围0～7****************
+             -*/
+ 295          void OLED_DrawBMP(unsigned char x0, unsigned char y0,unsigned char x1, unsigned char y1,unsigned char BMP[
+             -])
+ 296          {   
+ 297   1       unsigned int j=0;
+ 298   1       unsigned char x,y;
+ 299   1        
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 6   
+
+ 300   1        if(y1%8==0) y=y1/8;      
+ 301   1        else y=y1/8+1;
+ 302   1          for(y=y0;y<y1;y++)
+ 303   1          {
+ 304   2              OLED_Set_Pos(x0,y);
+ 305   2          for(x=x0;x<x1;x++)
+ 306   2              {      
+ 307   3                  OLED_WR_Byte(BMP[j++],OLED_DATA);           
+ 308   3              }
+ 309   2          }
+ 310   1      } 
+ 311          
+ 312          //初始化SSD1306                     
+ 313          void OLED_Init(void)
+ 314          {   
+ 315   1       
+ 316   1          OLED_WR_Byte(0xAE,OLED_CMD);//--display off
+ 317   1          OLED_WR_Byte(0x00,OLED_CMD);//---set low column address
+ 318   1          OLED_WR_Byte(0x10,OLED_CMD);//---set high column address
+ 319   1          OLED_WR_Byte(0x40,OLED_CMD);//--set start line address  
+ 320   1          OLED_WR_Byte(0xB0,OLED_CMD);//--set page address
+ 321   1          OLED_WR_Byte(0x81,OLED_CMD); // contract control
+ 322   1          OLED_WR_Byte(0xFF,OLED_CMD);//--128   
+ 323   1          OLED_WR_Byte(0xA1,OLED_CMD);//set segment remap 
+ 324   1          OLED_WR_Byte(0xA6,OLED_CMD);//--normal / reverse
+ 325   1          OLED_WR_Byte(0xA8,OLED_CMD);//--set multiplex ratio(1 to 64)
+ 326   1          OLED_WR_Byte(0x3F,OLED_CMD);//--1/32 duty
+ 327   1          OLED_WR_Byte(0xC8,OLED_CMD);//Com scan direction
+ 328   1          OLED_WR_Byte(0xD3,OLED_CMD);//-set display offset
+ 329   1          OLED_WR_Byte(0x00,OLED_CMD);//
+ 330   1          
+ 331   1          OLED_WR_Byte(0xD5,OLED_CMD);//set osc division
+ 332   1          OLED_WR_Byte(0x80,OLED_CMD);//
+ 333   1          
+ 334   1          OLED_WR_Byte(0xD8,OLED_CMD);//set area color mode off
+ 335   1          OLED_WR_Byte(0x05,OLED_CMD);//
+ 336   1          
+ 337   1          OLED_WR_Byte(0xD9,OLED_CMD);//Set Pre-Charge Period
+ 338   1          OLED_WR_Byte(0xF1,OLED_CMD);//
+ 339   1          
+ 340   1          OLED_WR_Byte(0xDA,OLED_CMD);//set com pin configuartion
+ 341   1          OLED_WR_Byte(0x12,OLED_CMD);//
+ 342   1          
+ 343   1          OLED_WR_Byte(0xDB,OLED_CMD);//set Vcomh
+ 344   1          OLED_WR_Byte(0x30,OLED_CMD);//
+ 345   1          
+ 346   1          OLED_WR_Byte(0x8D,OLED_CMD);//set charge pump enable
+ 347   1          OLED_WR_Byte(0x14,OLED_CMD);//
+ 348   1          
+ 349   1          OLED_WR_Byte(0xAF,OLED_CMD);//--turn on oled panel
+ 350   1      }  
+ 351          
+ 352          
+ 353          
+ 354          
+ 355          
+ 356          
+ 357          
+ 358          
+ 359          
+ 360          
+ 361          
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 7   
+
+ 362          
+ 363          
+ 364          
+ 365          
+ 366          
+ 367          
+ 368          
+ 369          
+ 370          
+ 371          
+ 372          
+ 373          
+ 374          
+ 375          
+ 376          
+ 377          
+ 378          
+ 379          
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 8   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION _delay_ms (BEGIN)
+                                           ; SOURCE LINE # 3
+;---- Variable 'ms' assigned to Register 'R6/R7' ----
+                                           ; SOURCE LINE # 4
+0000         ?C0001:
+                                           ; SOURCE LINE # 6
+0000 EF                MOV     A,R7
+0001 4E                ORL     A,R6
+0002 6015              JZ      ?C0005
+                                           ; SOURCE LINE # 7
+                                           ; SOURCE LINE # 8
+;---- Variable 'a' assigned to Register 'R4/R5' ----
+0004 7D08              MOV     R5,#08H
+0006 7C07              MOV     R4,#07H
+0008         ?C0003:
+                                           ; SOURCE LINE # 9
+0008 ED                MOV     A,R5
+0009 1D                DEC     R5
+000A AA04              MOV     R2,AR4
+000C 7001              JNZ     ?C0101
+000E 1C                DEC     R4
+000F         ?C0101:
+000F 4A                ORL     A,R2
+0010 70F6              JNZ     ?C0003
+                                           ; SOURCE LINE # 10
+0012 EF                MOV     A,R7
+0013 1F                DEC     R7
+0014 70EA              JNZ     ?C0001
+0016 1E                DEC     R6
+0017         ?C0102:
+                                           ; SOURCE LINE # 11
+0017 80E7              SJMP    ?C0001
+                                           ; SOURCE LINE # 13
+0019         ?C0005:
+0019 22                RET     
+             ; FUNCTION _delay_ms (END)
+
+             ; FUNCTION IIC_Start (BEGIN)
+                                           ; SOURCE LINE # 17
+                                           ; SOURCE LINE # 18
+                                           ; SOURCE LINE # 20
+0000 D2A6              SETB    OLED_SCL
+                                           ; SOURCE LINE # 21
+0002 D2A7              SETB    OLED_SDIN
+                                           ; SOURCE LINE # 22
+0004 C2A7              CLR     OLED_SDIN
+                                           ; SOURCE LINE # 23
+0006 C2A6              CLR     OLED_SCL
+                                           ; SOURCE LINE # 24
+0008 22                RET     
+             ; FUNCTION IIC_Start (END)
+
+             ; FUNCTION IIC_Stop (BEGIN)
+                                           ; SOURCE LINE # 28
+                                           ; SOURCE LINE # 29
+                                           ; SOURCE LINE # 30
+0000 D2A6              SETB    OLED_SCL
+                                           ; SOURCE LINE # 32
+0002 C2A7              CLR     OLED_SDIN
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 9   
+
+                                           ; SOURCE LINE # 33
+0004 D2A7              SETB    OLED_SDIN
+                                           ; SOURCE LINE # 35
+0006 22                RET     
+             ; FUNCTION IIC_Stop (END)
+
+             ; FUNCTION L?0113 (BEGIN)
+0000 120000      R     LCALL   _Write_IIC_Byte
+0003 120000      R     LCALL   IIC_Wait_Ack
+0006 AF04              MOV     R7,AR4
+0008 120000      R     LCALL   _Write_IIC_Byte
+             ; FUNCTION IIC_Wait_Ack (BEGIN)
+                                           ; SOURCE LINE # 37
+                                           ; SOURCE LINE # 38
+                                           ; SOURCE LINE # 56
+000B D2A6              SETB    OLED_SCL
+                                           ; SOURCE LINE # 57
+000D C2A6              CLR     OLED_SCL
+                                           ; SOURCE LINE # 58
+000F 22                RET     
+             ; FUNCTION IIC_Wait_Ack (END)
+
+             ; FUNCTION L?0114 (BEGIN)
+0000 AC07              MOV     R4,AR7
+0002 120000      R     LCALL   IIC_Start
+0005 7F78              MOV     R7,#078H
+             ; FUNCTION _Write_IIC_Byte (BEGIN)
+                                           ; SOURCE LINE # 63
+;---- Variable 'IIC_Byte' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 64
+                                           ; SOURCE LINE # 67
+;---- Variable 'da' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 68
+0007 C2A6              CLR     OLED_SCL
+                                           ; SOURCE LINE # 69
+;---- Variable 'i' assigned to Register 'R6' ----
+0009 E4                CLR     A
+000A FE                MOV     R6,A
+000B         ?C0009:
+000B EE                MOV     A,R6
+000C C3                CLR     C
+000D 9408              SUBB    A,#08H
+000F 7480              MOV     A,#080H
+0011 9480              SUBB    A,#080H
+0013 501B              JNC     ?C0014
+                                           ; SOURCE LINE # 70
+                                           ; SOURCE LINE # 71
+;---- Variable 'm' assigned to Register 'R5' ----
+0015 AD07              MOV     R5,AR7
+                                           ; SOURCE LINE # 73
+0017 530580            ANL     AR5,#080H
+                                           ; SOURCE LINE # 74
+001A ED                MOV     A,R5
+001B 6480              XRL     A,#080H
+001D 7004              JNZ     ?C0012
+                                           ; SOURCE LINE # 75
+001F D2A7              SETB    OLED_SDIN
+0021 8002              SJMP    ?C0013
+0023         ?C0012:
+                                           ; SOURCE LINE # 76
+0023 C2A7              CLR     OLED_SDIN
+0025         ?C0013:
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 10  
+
+                                           ; SOURCE LINE # 77
+0025 EF                MOV     A,R7
+0026 25E0              ADD     A,ACC
+0028 FF                MOV     R7,A
+                                           ; SOURCE LINE # 78
+0029 D2A6              SETB    OLED_SCL
+                                           ; SOURCE LINE # 79
+002B C2A6              CLR     OLED_SCL
+                                           ; SOURCE LINE # 80
+002D 0E                INC     R6
+002E 80DB              SJMP    ?C0009
+                                           ; SOURCE LINE # 83
+0030         ?C0014:
+0030 22                RET     
+             ; FUNCTION _Write_IIC_Byte (END)
+
+             ; FUNCTION _Write_IIC_Command (BEGIN)
+                                           ; SOURCE LINE # 87
+;---- Variable 'IIC_Command' assigned to Register 'R4' ----
+                                           ; SOURCE LINE # 88
+                                           ; SOURCE LINE # 89
+                                           ; SOURCE LINE # 90
+0000 120000      R     LCALL   L?0114
+                                           ; SOURCE LINE # 91
+0003 120000      R     LCALL   IIC_Wait_Ack
+                                           ; SOURCE LINE # 92
+0006 E4                CLR     A
+0007 FF                MOV     R7,A
+                                           ; SOURCE LINE # 93
+                                           ; SOURCE LINE # 94
+                                           ; SOURCE LINE # 95
+0008 120000      R     LCALL   L?0113
+                                           ; SOURCE LINE # 96
+000B 020000      R     LJMP    IIC_Stop
+             ; FUNCTION _Write_IIC_Command (END)
+
+             ; FUNCTION _Write_IIC_Data (BEGIN)
+                                           ; SOURCE LINE # 101
+;---- Variable 'IIC_Data' assigned to Register 'R4' ----
+                                           ; SOURCE LINE # 102
+                                           ; SOURCE LINE # 103
+                                           ; SOURCE LINE # 104
+0000 120000      R     LCALL   L?0114
+                                           ; SOURCE LINE # 105
+0003 120000      R     LCALL   IIC_Wait_Ack
+                                           ; SOURCE LINE # 106
+0006 7F40              MOV     R7,#040H
+                                           ; SOURCE LINE # 107
+                                           ; SOURCE LINE # 108
+                                           ; SOURCE LINE # 109
+0008 120000      R     LCALL   L?0113
+                                           ; SOURCE LINE # 110
+000B 020000      R     LJMP    IIC_Stop
+             ; FUNCTION _Write_IIC_Data (END)
+
+             ; FUNCTION L?0108 (BEGIN)
+0000         L?0109:
+0000 EF                MOV     A,R7
+0001 24B0              ADD     A,#0B0H
+0003 FF                MOV     R7,A
+0004 EE                MOV     A,R6
+0005 33                RLC     A
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 11  
+
+0006 FE                MOV     R6,A
+0007 E4                CLR     A
+0008 FD                MOV     R5,A
+0009 FC                MOV     R4,A
+000A         L?0110:
+000A 120000      R     LCALL   _OLED_WR_Byte
+000D E4                CLR     A
+000E FD                MOV     R5,A
+000F FC                MOV     R4,A
+0010 FF                MOV     R7,A
+0011         L?0111:
+0011 FE                MOV     R6,A
+0012 120000      R     LCALL   _OLED_WR_Byte
+0015 7F10              MOV     R7,#010H
+0017         L?0112:
+0017 E4                CLR     A
+0018 FD                MOV     R5,A
+0019 FC                MOV     R4,A
+001A FE                MOV     R6,A
+             ; FUNCTION _OLED_WR_Byte (BEGIN)
+                                           ; SOURCE LINE # 112
+;---- Variable 'dat' assigned to Register 'R2/R3' ----
+001B AB07              MOV     R3,AR7
+001D AA06              MOV     R2,AR6
+;---- Variable 'cmd' assigned to Register 'R4/R5' ----
+                                           ; SOURCE LINE # 113
+                                           ; SOURCE LINE # 114
+001F ED                MOV     A,R5
+0020 4C                ORL     A,R4
+0021 6003              JZ      ?C0017
+                                           ; SOURCE LINE # 115
+                                           ; SOURCE LINE # 117
+0023 020000      R     LJMP    _Write_IIC_Data
+                                           ; SOURCE LINE # 119
+0026         ?C0017:
+                                           ; SOURCE LINE # 120
+                                           ; SOURCE LINE # 121
+0026 AF03              MOV     R7,AR3
+0028 120000      R     LCALL   _Write_IIC_Command
+                                           ; SOURCE LINE # 123
+                                           ; SOURCE LINE # 126
+002B         ?C0019:
+002B 22                RET     
+             ; FUNCTION _OLED_WR_Byte (END)
+
+             ; FUNCTION _fill_picture (BEGIN)
+                                           ; SOURCE LINE # 131
+0000 8F00        R     MOV     fill_Data,R7
+                                           ; SOURCE LINE # 132
+                                           ; SOURCE LINE # 134
+;---- Variable 'm' assigned to Register 'R1' ----
+0002 E4                CLR     A
+0003 F9                MOV     R1,A
+0004         ?C0020:
+0004 E9                MOV     A,R1
+0005 FF                MOV     R7,A
+0006 7E00              MOV     R6,#00H
+0008 C3                CLR     C
+0009 9408              SUBB    A,#08H
+000B 7480              MOV     A,#080H
+000D 9480              SUBB    A,#080H
+000F 5023              JNC     ?C0026
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 12  
+
+                                           ; SOURCE LINE # 135
+                                           ; SOURCE LINE # 136
+                                           ; SOURCE LINE # 137
+                                           ; SOURCE LINE # 138
+0011 120000      R     LCALL   L?0108
+                                           ; SOURCE LINE # 139
+0014 E4                CLR     A
+0015 F500        R     MOV     n,A
+0017         ?C0023:
+0017 C3                CLR     C
+0018 E500        R     MOV     A,n
+001A 9480              SUBB    A,#080H
+001C 7480              MOV     A,#080H
+001E 9480              SUBB    A,#080H
+0020 500F              JNC     ?C0022
+                                           ; SOURCE LINE # 140
+                                           ; SOURCE LINE # 141
+0022 AF00        R     MOV     R7,fill_Data
+0024 7E00              MOV     R6,#00H
+0026 7D01              MOV     R5,#01H
+0028 7C00              MOV     R4,#00H
+002A 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 142
+002D 0500        R     INC     n
+002F 80E6              SJMP    ?C0023
+                                           ; SOURCE LINE # 143
+0031         ?C0022:
+0031 09                INC     R1
+0032 80D0              SJMP    ?C0020
+                                           ; SOURCE LINE # 144
+0034         ?C0026:
+0034 22                RET     
+             ; FUNCTION _fill_picture (END)
+
+             ; FUNCTION _Delay_50ms (BEGIN)
+                                           ; SOURCE LINE # 148
+;---- Variable 'Del_50ms' assigned to Register 'R6/R7' ----
+                                           ; SOURCE LINE # 149
+                                           ; SOURCE LINE # 151
+0000         ?C0027:
+0000 D3                SETB    C
+0001 EF                MOV     A,R7
+0002 9400              SUBB    A,#00H
+0004 EE                MOV     A,R6
+0005 9400              SUBB    A,#00H
+0007 4014              JC      ?C0033
+                                           ; SOURCE LINE # 152
+;---- Variable 'm' assigned to Register 'R4/R5' ----
+0009 7D65              MOV     R5,#065H
+000B 7C18              MOV     R4,#018H
+000D         ?C0030:
+000D ED                MOV     A,R5
+000E 1D                DEC     R5
+000F 7001              JNZ     ?C0103
+0011 1C                DEC     R4
+0012         ?C0103:
+0012 ED                MOV     A,R5
+0013 4C                ORL     A,R4
+0014 70F7              JNZ     ?C0030
+0016         ?C0029:
+0016 EF                MOV     A,R7
+0017 1F                DEC     R7
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 13  
+
+0018 70E6              JNZ     ?C0027
+001A 1E                DEC     R6
+001B         ?C0104:
+001B 80E3              SJMP    ?C0027
+                                           ; SOURCE LINE # 153
+001D         ?C0033:
+001D 22                RET     
+             ; FUNCTION _Delay_50ms (END)
+
+             ; FUNCTION _Delay_1ms (BEGIN)
+                                           ; SOURCE LINE # 155
+;---- Variable 'j' assigned to Register 'R5' ----
+;---- Variable 'Del_1ms' assigned to Register 'R6/R7' ----
+                                           ; SOURCE LINE # 156
+0000         ?C0034:
+                                           ; SOURCE LINE # 158
+0000 EF                MOV     A,R7
+0001 1F                DEC     R7
+0002 AA06              MOV     R2,AR6
+0004 7001              JNZ     ?C0105
+0006 1E                DEC     R6
+0007         ?C0105:
+0007 4A                ORL     A,R2
+0008 600F              JZ      ?C0039
+                                           ; SOURCE LINE # 159
+                                           ; SOURCE LINE # 160
+000A E4                CLR     A
+000B FD                MOV     R5,A
+000C         ?C0036:
+000C ED                MOV     A,R5
+000D C3                CLR     C
+000E 947B              SUBB    A,#07BH
+0010 7480              MOV     A,#080H
+0012 9480              SUBB    A,#080H
+0014 50EA              JNC     ?C0034
+0016 0D                INC     R5
+0017 80F3              SJMP    ?C0036
+                                           ; SOURCE LINE # 161
+                                           ; SOURCE LINE # 162
+0019         ?C0039:
+0019 22                RET     
+             ; FUNCTION _Delay_1ms (END)
+
+             ; FUNCTION _OLED_Set_Pos (BEGIN)
+                                           ; SOURCE LINE # 166
+;---- Variable 'x' assigned to Register 'R1' ----
+0000 A907              MOV     R1,AR7
+;---- Variable 'y' assigned to Register 'R5' ----
+                                           ; SOURCE LINE # 167
+0002 ED                MOV     A,R5
+0003 24B0              ADD     A,#0B0H
+0005 FF                MOV     R7,A
+0006 E4                CLR     A
+0007 33                RLC     A
+0008 FE                MOV     R6,A
+0009 E4                CLR     A
+000A FD                MOV     R5,A
+000B FC                MOV     R4,A
+000C 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 168
+000F E9                MOV     A,R1
+0010 54F0              ANL     A,#0F0H
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 14  
+
+0012 C4                SWAP    A
+0013 540F              ANL     A,#0FH
+0015 7E00              MOV     R6,#00H
+0017 4410              ORL     A,#010H
+0019 FF                MOV     R7,A
+001A E4                CLR     A
+001B FD                MOV     R5,A
+001C FC                MOV     R4,A
+001D 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 169
+0020 E9                MOV     A,R1
+0021 540F              ANL     A,#0FH
+0023 FF                MOV     R7,A
+0024 7E00              MOV     R6,#00H
+0026 E4                CLR     A
+0027 FD                MOV     R5,A
+0028 FC                MOV     R4,A
+0029 020000      R     LJMP    _OLED_WR_Byte
+             ; FUNCTION _OLED_Set_Pos (END)
+
+             ; FUNCTION OLED_Display_On (BEGIN)
+                                           ; SOURCE LINE # 172
+                                           ; SOURCE LINE # 173
+                                           ; SOURCE LINE # 174
+0000 7F8D              MOV     R7,#08DH
+0002 120000      R     LCALL   L?0112
+                                           ; SOURCE LINE # 175
+0005 E4                CLR     A
+0006 FD                MOV     R5,A
+0007 FC                MOV     R4,A
+0008 7F14              MOV     R7,#014H
+000A FE                MOV     R6,A
+000B 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 176
+000E E4                CLR     A
+000F FD                MOV     R5,A
+0010 FC                MOV     R4,A
+0011 7FAF              MOV     R7,#0AFH
+0013 FE                MOV     R6,A
+0014 020000      R     LJMP    _OLED_WR_Byte
+             ; FUNCTION OLED_Display_On (END)
+
+             ; FUNCTION OLED_Display_Off (BEGIN)
+                                           ; SOURCE LINE # 179
+                                           ; SOURCE LINE # 180
+                                           ; SOURCE LINE # 181
+0000 E4                CLR     A
+0001 FD                MOV     R5,A
+0002 FC                MOV     R4,A
+0003 7F8D              MOV     R7,#08DH
+                                           ; SOURCE LINE # 182
+0005 120000      R     LCALL   L?0111
+                                           ; SOURCE LINE # 183
+0008 E4                CLR     A
+0009 FD                MOV     R5,A
+000A FC                MOV     R4,A
+000B 7FAE              MOV     R7,#0AEH
+000D FE                MOV     R6,A
+000E 020000      R     LJMP    _OLED_WR_Byte
+             ; FUNCTION OLED_Display_Off (END)
+
+             ; FUNCTION OLED_Clear (BEGIN)
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 15  
+
+                                           ; SOURCE LINE # 186
+                                           ; SOURCE LINE # 187
+                                           ; SOURCE LINE # 189
+;---- Variable 'i' assigned to Register 'R1' ----
+0000 E4                CLR     A
+0001 F9                MOV     R1,A
+0002         ?C0043:
+0002 E9                MOV     A,R1
+0003 FF                MOV     R7,A
+0004 7E00              MOV     R6,#00H
+0006 C3                CLR     C
+0007 9408              SUBB    A,#08H
+0009 7480              MOV     A,#080H
+000B 9480              SUBB    A,#080H
+000D 5022              JNC     ?C0049
+                                           ; SOURCE LINE # 190
+                                           ; SOURCE LINE # 191
+                                           ; SOURCE LINE # 192
+                                           ; SOURCE LINE # 193
+000F 120000      R     LCALL   L?0108
+                                           ; SOURCE LINE # 194
+0012 E4                CLR     A
+0013 F500        R     MOV     n,A
+0015         ?C0046:
+0015 C3                CLR     C
+0016 E500        R     MOV     A,n
+0018 9480              SUBB    A,#080H
+001A 7480              MOV     A,#080H
+001C 9480              SUBB    A,#080H
+001E 500E              JNC     ?C0045
+0020 7D01              MOV     R5,#01H
+0022 7C00              MOV     R4,#00H
+0024 E4                CLR     A
+0025 FF                MOV     R7,A
+0026 FE                MOV     R6,A
+0027 120000      R     LCALL   _OLED_WR_Byte
+002A 0500        R     INC     n
+002C 80E7              SJMP    ?C0046
+                                           ; SOURCE LINE # 195
+002E         ?C0045:
+002E 09                INC     R1
+002F 80D1              SJMP    ?C0043
+                                           ; SOURCE LINE # 196
+0031         ?C0049:
+0031 22                RET     
+             ; FUNCTION OLED_Clear (END)
+
+             ; FUNCTION OLED_On (BEGIN)
+                                           ; SOURCE LINE # 197
+                                           ; SOURCE LINE # 198
+                                           ; SOURCE LINE # 200
+;---- Variable 'i' assigned to Register 'R1' ----
+0000 E4                CLR     A
+0001 F9                MOV     R1,A
+0002         ?C0050:
+0002 E9                MOV     A,R1
+0003 FF                MOV     R7,A
+0004 7E00              MOV     R6,#00H
+0006 C3                CLR     C
+0007 9408              SUBB    A,#08H
+0009 7480              MOV     A,#080H
+000B 9480              SUBB    A,#080H
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 16  
+
+000D 5023              JNC     ?C0056
+                                           ; SOURCE LINE # 201
+                                           ; SOURCE LINE # 202
+                                           ; SOURCE LINE # 203
+                                           ; SOURCE LINE # 204
+000F 120000      R     LCALL   L?0109
+                                           ; SOURCE LINE # 205
+0012 E4                CLR     A
+0013 F500        R     MOV     n,A
+0015         ?C0053:
+0015 C3                CLR     C
+0016 E500        R     MOV     A,n
+0018 9480              SUBB    A,#080H
+001A 7480              MOV     A,#080H
+001C 9480              SUBB    A,#080H
+001E 500F              JNC     ?C0052
+0020 7D01              MOV     R5,#01H
+0022 7C00              MOV     R4,#00H
+0024 7F01              MOV     R7,#01H
+0026 7E00              MOV     R6,#00H
+0028 120000      R     LCALL   _OLED_WR_Byte
+002B 0500        R     INC     n
+002D 80E6              SJMP    ?C0053
+                                           ; SOURCE LINE # 206
+002F         ?C0052:
+002F 09                INC     R1
+0030 80D0              SJMP    ?C0050
+                                           ; SOURCE LINE # 207
+0032         ?C0056:
+0032 22                RET     
+             ; FUNCTION OLED_On (END)
+
+             ; FUNCTION _OLED_ShowChar (BEGIN)
+                                           ; SOURCE LINE # 213
+0000 8F00        R     MOV     x,R7
+0002 8D00        R     MOV     y,R5
+;---- Variable 'chr' assigned to Register 'R3' ----
+                                           ; SOURCE LINE # 214
+                                           ; SOURCE LINE # 215
+0004 E4                CLR     A
+0005 F500        R     MOV     c,A
+;---- Variable 'i' assigned to Register 'R1' ----
+0007 F9                MOV     R1,A
+                                           ; SOURCE LINE # 216
+0008 EB                MOV     A,R3
+0009 24E0              ADD     A,#0E0H
+000B F500        R     MOV     c,A
+                                           ; SOURCE LINE # 217
+000D D3                SETB    C
+000E EF                MOV     A,R7
+000F 947F              SUBB    A,#07FH
+0011 7480              MOV     A,#080H
+0013 9480              SUBB    A,#080H
+0015 4007              JC      ?C0057
+0017 E4                CLR     A
+0018 F500        R     MOV     x,A
+001A 0500        R     INC     y
+001C 0500        R     INC     y
+001E         ?C0057:
+                                           ; SOURCE LINE # 218
+001E E500        R     MOV     A,Char_Size
+0020 6410              XRL     A,#010H
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 17  
+
+0022 707A              JNZ     ?C0058
+                                           ; SOURCE LINE # 219
+                                           ; SOURCE LINE # 220
+0024 AD00        R     MOV     R5,y
+0026 AF00        R     MOV     R7,x
+0028 120000      R     LCALL   _OLED_Set_Pos
+                                           ; SOURCE LINE # 221
+002B E4                CLR     A
+002C F9                MOV     R1,A
+002D         ?C0059:
+002D E9                MOV     A,R1
+002E C3                CLR     C
+002F 9408              SUBB    A,#08H
+0031 7480              MOV     A,#080H
+0033 9480              SUBB    A,#080H
+0035 5029              JNC     ?C0060
+                                           ; SOURCE LINE # 222
+0037 75F010            MOV     B,#010H
+003A E500        R     MOV     A,c
+003C A4                MUL     AB
+003D 29                ADD     A,R1
+003E F582              MOV     DPL,A
+0040 E4                CLR     A
+0041 35F0              ADDC    A,B
+0043 F583              MOV     DPH,A
+0045 E582              MOV     A,DPL
+0047 2400        R     ADD     A,#LOW F8X16
+0049 F582              MOV     DPL,A
+004B E583              MOV     A,DPH
+004D 3400        R     ADDC    A,#HIGH F8X16
+004F F583              MOV     DPH,A
+0051 E4                CLR     A
+0052 93                MOVC    A,@A+DPTR
+0053 FF                MOV     R7,A
+0054 7E00              MOV     R6,#00H
+0056 7D01              MOV     R5,#01H
+0058 7C00              MOV     R4,#00H
+005A 120000      R     LCALL   _OLED_WR_Byte
+005D 09                INC     R1
+005E 80CD              SJMP    ?C0059
+0060         ?C0060:
+                                           ; SOURCE LINE # 223
+0060 E500        R     MOV     A,y
+0062 04                INC     A
+0063 FD                MOV     R5,A
+0064 AF00        R     MOV     R7,x
+0066 120000      R     LCALL   _OLED_Set_Pos
+                                           ; SOURCE LINE # 224
+0069 E4                CLR     A
+006A F9                MOV     R1,A
+006B         ?C0062:
+006B E9                MOV     A,R1
+006C C3                CLR     C
+006D 9408              SUBB    A,#08H
+006F 7480              MOV     A,#080H
+0071 9480              SUBB    A,#080H
+0073 5065              JNC     ?C0069
+                                           ; SOURCE LINE # 225
+0075 75F010            MOV     B,#010H
+0078 E500        R     MOV     A,c
+007A A4                MUL     AB
+007B 29                ADD     A,R1
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 18  
+
+007C F582              MOV     DPL,A
+007E E4                CLR     A
+007F 35F0              ADDC    A,B
+0081 F583              MOV     DPH,A
+0083 E582              MOV     A,DPL
+0085 2400        R     ADD     A,#LOW F8X16+08H
+0087 F582              MOV     DPL,A
+0089 E583              MOV     A,DPH
+008B 3400        R     ADDC    A,#HIGH F8X16+08H
+008D F583              MOV     DPH,A
+008F E4                CLR     A
+0090 93                MOVC    A,@A+DPTR
+0091 FF                MOV     R7,A
+0092 7E00              MOV     R6,#00H
+0094 7D01              MOV     R5,#01H
+0096 7C00              MOV     R4,#00H
+0098 120000      R     LCALL   _OLED_WR_Byte
+009B 09                INC     R1
+009C 80CD              SJMP    ?C0062
+                                           ; SOURCE LINE # 226
+009E         ?C0058:
+                                           ; SOURCE LINE # 227
+                                           ; SOURCE LINE # 228
+009E AD00        R     MOV     R5,y
+00A0 AF00        R     MOV     R7,x
+00A2 120000      R     LCALL   _OLED_Set_Pos
+                                           ; SOURCE LINE # 229
+00A5 E4                CLR     A
+00A6 F9                MOV     R1,A
+00A7         ?C0066:
+00A7 E9                MOV     A,R1
+00A8 C3                CLR     C
+00A9 9406              SUBB    A,#06H
+00AB 7480              MOV     A,#080H
+00AD 9480              SUBB    A,#080H
+00AF 5029              JNC     ?C0069
+                                           ; SOURCE LINE # 230
+00B1 75F006            MOV     B,#06H
+00B4 E500        R     MOV     A,c
+00B6 A4                MUL     AB
+00B7 2400        R     ADD     A,#LOW F6x8
+00B9 F582              MOV     DPL,A
+00BB E5F0              MOV     A,B
+00BD 3400        R     ADDC    A,#HIGH F6x8
+00BF F583              MOV     DPH,A
+00C1 E582              MOV     A,DPL
+00C3 29                ADD     A,R1
+00C4 F582              MOV     DPL,A
+00C6 E4                CLR     A
+00C7 3583              ADDC    A,DPH
+00C9 F583              MOV     DPH,A
+00CB E4                CLR     A
+00CC 93                MOVC    A,@A+DPTR
+00CD FF                MOV     R7,A
+00CE 7E00              MOV     R6,#00H
+00D0 7D01              MOV     R5,#01H
+00D2 7C00              MOV     R4,#00H
+00D4 120000      R     LCALL   _OLED_WR_Byte
+00D7 09                INC     R1
+00D8 80CD              SJMP    ?C0066
+                                           ; SOURCE LINE # 232
+                                           ; SOURCE LINE # 233
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 19  
+
+00DA         ?C0069:
+00DA 22                RET     
+             ; FUNCTION _OLED_ShowChar (END)
+
+             ; FUNCTION _oled_pow (BEGIN)
+                                           ; SOURCE LINE # 235
+0000 8F00        R     MOV     m,R7
+;---- Variable 'n' assigned to Register 'R1' ----
+0002 A905              MOV     R1,AR5
+                                           ; SOURCE LINE # 236
+                                           ; SOURCE LINE # 237
+;---- Variable 'result' assigned to Register 'R6/R7' ----
+0004 7F01              MOV     R7,#01H
+0006 7E00              MOV     R6,#00H
+0008         ?C0070:
+                                           ; SOURCE LINE # 238
+0008 AD01              MOV     R5,AR1
+000A 19                DEC     R1
+000B ED                MOV     A,R5
+000C 6009              JZ      ?C0071
+000E AD00        R     MOV     R5,m
+0010 7C00              MOV     R4,#00H
+0012 120000      E     LCALL   ?C?IMUL
+0015 80F1              SJMP    ?C0070
+0017         ?C0071:
+                                           ; SOURCE LINE # 239
+                                           ; SOURCE LINE # 240
+0017 22                RET     
+             ; FUNCTION _oled_pow (END)
+
+             ; FUNCTION _OLED_ShowNum (BEGIN)
+                                           ; SOURCE LINE # 247
+0000 8F00        R     MOV     x,R7
+0002 8D00        R     MOV     y,R5
+0004 8A00        R     MOV     num,R2
+0006 8B00        R     MOV     num+01H,R3
+                                           ; SOURCE LINE # 248
+                                           ; SOURCE LINE # 250
+0008 E4                CLR     A
+0009 F500        R     MOV     enshow,A
+                                           ; SOURCE LINE # 251
+000B F500        R     MOV     t,A
+000D         ?C0073:
+000D E500        R     MOV     A,t
+000F C3                CLR     C
+0010 9500        R     SUBB    A,len
+0012 5065              JNC     ?C0079
+                                           ; SOURCE LINE # 252
+                                           ; SOURCE LINE # 253
+0014 C3                CLR     C
+0015 E500        R     MOV     A,len
+0017 9500        R     SUBB    A,t
+0019 14                DEC     A
+001A FD                MOV     R5,A
+001B 7F0A              MOV     R7,#0AH
+001D 120000      R     LCALL   _oled_pow
+0020 AC00        R     MOV     R4,num
+0022 AD00        R     MOV     R5,num+01H
+0024 CF                XCH     A,R7
+0025 CD                XCH     A,R5
+0026 CF                XCH     A,R7
+0027 CE                XCH     A,R6
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 20  
+
+0028 CC                XCH     A,R4
+0029 CE                XCH     A,R6
+002A 120000      E     LCALL   ?C?UIDIV
+002D 7C00              MOV     R4,#00H
+002F 7D0A              MOV     R5,#0AH
+0031 120000      E     LCALL   ?C?UIDIV
+0034 8D00        R     MOV     temp,R5
+                                           ; SOURCE LINE # 254
+0036 E500        R     MOV     A,enshow
+0038 7023              JNZ     ?C0076
+003A E500        R     MOV     A,len
+003C 14                DEC     A
+003D FF                MOV     R7,A
+003E E500        R     MOV     A,t
+0040 C3                CLR     C
+0041 9F                SUBB    A,R7
+0042 5019              JNC     ?C0076
+                                           ; SOURCE LINE # 255
+                                           ; SOURCE LINE # 256
+0044 E500        R     MOV     A,temp
+0046 7012              JNZ     ?C0077
+                                           ; SOURCE LINE # 257
+                                           ; SOURCE LINE # 258
+0048 E500        R     MOV     A,size2
+004A C3                CLR     C
+004B 13                RRC     A
+004C 8500F0      R     MOV     B,t
+004F A4                MUL     AB
+0050 2500        R     ADD     A,x
+0052 FF                MOV     R7,A
+0053 850000      R     MOV     ?_OLED_ShowChar?BYTE+03H,size2
+0056 7B20              MOV     R3,#020H
+                                           ; SOURCE LINE # 259
+0058 8016              SJMP    ?C0107
+                                           ; SOURCE LINE # 260
+005A         ?C0077:
+005A 750001      R     MOV     enshow,#01H
+                                           ; SOURCE LINE # 262
+005D         ?C0076:
+                                           ; SOURCE LINE # 263
+005D E500        R     MOV     A,size2
+005F C3                CLR     C
+0060 13                RRC     A
+0061 8500F0      R     MOV     B,t
+0064 A4                MUL     AB
+0065 2500        R     ADD     A,x
+0067 FF                MOV     R7,A
+0068 E500        R     MOV     A,temp
+006A 2430              ADD     A,#030H
+006C FB                MOV     R3,A
+006D 850000      R     MOV     ?_OLED_ShowChar?BYTE+03H,size2
+0070         ?C0107:
+0070 AD00        R     MOV     R5,y
+0072 120000      R     LCALL   _OLED_ShowChar
+                                           ; SOURCE LINE # 264
+0075         ?C0075:
+0075 0500        R     INC     t
+0077 8094              SJMP    ?C0073
+                                           ; SOURCE LINE # 265
+0079         ?C0079:
+0079 22                RET     
+             ; FUNCTION _OLED_ShowNum (END)
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 21  
+
+
+             ; FUNCTION _OLED_ShowString (BEGIN)
+                                           ; SOURCE LINE # 267
+0000 8F00        R     MOV     x,R7
+0002 8D00        R     MOV     y,R5
+0004 8B00        R     MOV     chr,R3
+0006 8A00        R     MOV     chr+01H,R2
+0008 8900        R     MOV     chr+02H,R1
+                                           ; SOURCE LINE # 268
+                                           ; SOURCE LINE # 269
+000A E4                CLR     A
+000B F500        R     MOV     j,A
+000D         ?C0080:
+                                           ; SOURCE LINE # 270
+000D AB00        R     MOV     R3,chr
+000F AA00        R     MOV     R2,chr+01H
+0011 A900        R     MOV     R1,chr+02H
+0013 850082      R     MOV     DPL,j
+0016 758300            MOV     DPH,#00H
+0019 120000      E     LCALL   ?C?CLDOPTR
+001C FB                MOV     R3,A
+001D 6024              JZ      ?C0083
+                                           ; SOURCE LINE # 271
+001F 850000      R     MOV     ?_OLED_ShowChar?BYTE+03H,Char_Size
+0022 AD00        R     MOV     R5,y
+0024 AF00        R     MOV     R7,x
+0026 120000      R     LCALL   _OLED_ShowChar
+                                           ; SOURCE LINE # 272
+0029 7408              MOV     A,#08H
+002B 2500        R     ADD     A,x
+002D F500        R     MOV     x,A
+                                           ; SOURCE LINE # 273
+002F D3                SETB    C
+0030 9478              SUBB    A,#078H
+0032 7480              MOV     A,#080H
+0034 9480              SUBB    A,#080H
+0036 4007              JC      ?C0082
+0038 E4                CLR     A
+0039 F500        R     MOV     x,A
+003B 0500        R     INC     y
+003D 0500        R     INC     y
+003F         ?C0082:
+                                           ; SOURCE LINE # 274
+003F 0500        R     INC     j
+                                           ; SOURCE LINE # 275
+0041 80CA              SJMP    ?C0080
+                                           ; SOURCE LINE # 276
+0043         ?C0083:
+0043 22                RET     
+             ; FUNCTION _OLED_ShowString (END)
+
+             ; FUNCTION _OLED_ShowCHinese (BEGIN)
+                                           ; SOURCE LINE # 278
+0000 8F00        R     MOV     x,R7
+0002 8D00        R     MOV     y,R5
+0004 8B00        R     MOV     no,R3
+                                           ; SOURCE LINE # 279
+                                           ; SOURCE LINE # 280
+0006 E4                CLR     A
+0007 F500        R     MOV     adder,A
+                                           ; SOURCE LINE # 281
+0009 120000      R     LCALL   _OLED_Set_Pos
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 22  
+
+                                           ; SOURCE LINE # 282
+;---- Variable 't' assigned to Register 'R1' ----
+000C E4                CLR     A
+000D F9                MOV     R1,A
+000E         ?C0084:
+000E E9                MOV     A,R1
+000F C3                CLR     C
+0010 9410              SUBB    A,#010H
+0012 7480              MOV     A,#080H
+0014 9480              SUBB    A,#080H
+0016 502B              JNC     ?C0085
+                                           ; SOURCE LINE # 283
+                                           ; SOURCE LINE # 284
+0018 75F040            MOV     B,#040H
+001B E500        R     MOV     A,no
+001D A4                MUL     AB
+001E 2400        R     ADD     A,#LOW Hzk
+0020 F582              MOV     DPL,A
+0022 E5F0              MOV     A,B
+0024 3400        R     ADDC    A,#HIGH Hzk
+0026 F583              MOV     DPH,A
+0028 E582              MOV     A,DPL
+002A 29                ADD     A,R1
+002B F582              MOV     DPL,A
+002D E4                CLR     A
+002E 3583              ADDC    A,DPH
+0030 F583              MOV     DPH,A
+0032 E4                CLR     A
+0033 93                MOVC    A,@A+DPTR
+0034 FF                MOV     R7,A
+0035 7E00              MOV     R6,#00H
+0037 7D01              MOV     R5,#01H
+0039 7C00              MOV     R4,#00H
+003B 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 285
+003E 0500        R     INC     adder
+                                           ; SOURCE LINE # 286
+0040 09                INC     R1
+0041 80CB              SJMP    ?C0084
+0043         ?C0085:
+                                           ; SOURCE LINE # 287
+0043 E500        R     MOV     A,y
+0045 04                INC     A
+0046 FD                MOV     R5,A
+0047 AF00        R     MOV     R7,x
+0049 120000      R     LCALL   _OLED_Set_Pos
+                                           ; SOURCE LINE # 288
+004C E4                CLR     A
+004D F9                MOV     R1,A
+004E         ?C0087:
+004E E9                MOV     A,R1
+004F C3                CLR     C
+0050 9410              SUBB    A,#010H
+0052 7480              MOV     A,#080H
+0054 9480              SUBB    A,#080H
+0056 502B              JNC     ?C0090
+                                           ; SOURCE LINE # 289
+                                           ; SOURCE LINE # 290
+0058 75F040            MOV     B,#040H
+005B E500        R     MOV     A,no
+005D A4                MUL     AB
+005E 2400        R     ADD     A,#LOW Hzk+020H
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 23  
+
+0060 F582              MOV     DPL,A
+0062 E5F0              MOV     A,B
+0064 3400        R     ADDC    A,#HIGH Hzk+020H
+0066 F583              MOV     DPH,A
+0068 E582              MOV     A,DPL
+006A 29                ADD     A,R1
+006B F582              MOV     DPL,A
+006D E4                CLR     A
+006E 3583              ADDC    A,DPH
+0070 F583              MOV     DPH,A
+0072 E4                CLR     A
+0073 93                MOVC    A,@A+DPTR
+0074 FF                MOV     R7,A
+0075 7E00              MOV     R6,#00H
+0077 7D01              MOV     R5,#01H
+0079 7C00              MOV     R4,#00H
+007B 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 291
+007E 0500        R     INC     adder
+                                           ; SOURCE LINE # 292
+0080 09                INC     R1
+0081 80CB              SJMP    ?C0087
+                                           ; SOURCE LINE # 293
+0083         ?C0090:
+0083 22                RET     
+             ; FUNCTION _OLED_ShowCHinese (END)
+
+             ; FUNCTION _OLED_DrawBMP (BEGIN)
+                                           ; SOURCE LINE # 295
+0000 8F00        R     MOV     x0,R7
+0002 8B00        R     MOV     x1,R3
+;---- Variable 'y0' assigned to Register 'R5' ----
+                                           ; SOURCE LINE # 296
+                                           ; SOURCE LINE # 297
+0004 E4                CLR     A
+0005 F500        R     MOV     j,A
+0007 F500        R     MOV     j+01H,A
+                                           ; SOURCE LINE # 300
+0009 E500        R     MOV     A,y1
+000B 5407              ANL     A,#07H
+000D 700B              JNZ     ?C0091
+000F E500        R     MOV     A,y1
+0011 13                RRC     A
+0012 13                RRC     A
+0013 13                RRC     A
+0014 541F              ANL     A,#01FH
+0016 F500        R     MOV     y,A
+0018 800A              SJMP    ?C0092
+001A         ?C0091:
+                                           ; SOURCE LINE # 301
+001A E500        R     MOV     A,y1
+001C 13                RRC     A
+001D 13                RRC     A
+001E 13                RRC     A
+001F 541F              ANL     A,#01FH
+0021 04                INC     A
+0022 F500        R     MOV     y,A
+0024         ?C0092:
+                                           ; SOURCE LINE # 302
+0024 8D00        R     MOV     y,R5
+0026         ?C0093:
+0026 E500        R     MOV     A,y
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 24  
+
+0028 C3                CLR     C
+0029 9500        R     SUBB    A,y1
+002B 503B              JNC     ?C0099
+                                           ; SOURCE LINE # 303
+                                           ; SOURCE LINE # 304
+002D AD00        R     MOV     R5,y
+002F AF00        R     MOV     R7,x0
+0031 120000      R     LCALL   _OLED_Set_Pos
+                                           ; SOURCE LINE # 305
+0034 850000      R     MOV     x,x0
+0037         ?C0096:
+0037 E500        R     MOV     A,x
+0039 C3                CLR     C
+003A 9500        R     SUBB    A,x1
+003C 5026              JNC     ?C0095
+                                           ; SOURCE LINE # 306
+                                           ; SOURCE LINE # 307
+003E AB00        R     MOV     R3,BMP
+0040 AA00        R     MOV     R2,BMP+01H
+0042 A900        R     MOV     R1,BMP+02H
+0044 0500        R     INC     j+01H
+0046 E500        R     MOV     A,j+01H
+0048 AE00        R     MOV     R6,j
+004A 7002              JNZ     ?C0106
+004C 0500        R     INC     j
+004E         ?C0106:
+004E 14                DEC     A
+004F F582              MOV     DPL,A
+0051 8E83              MOV     DPH,R6
+0053 120000      E     LCALL   ?C?CLDOPTR
+0056 FF                MOV     R7,A
+0057 7E00              MOV     R6,#00H
+0059 7D01              MOV     R5,#01H
+005B 7C00              MOV     R4,#00H
+005D 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 308
+0060 0500        R     INC     x
+0062 80D3              SJMP    ?C0096
+                                           ; SOURCE LINE # 309
+0064         ?C0095:
+0064 0500        R     INC     y
+0066 80BE              SJMP    ?C0093
+                                           ; SOURCE LINE # 310
+0068         ?C0099:
+0068 22                RET     
+             ; FUNCTION _OLED_DrawBMP (END)
+
+             ; FUNCTION OLED_Init (BEGIN)
+                                           ; SOURCE LINE # 313
+                                           ; SOURCE LINE # 314
+                                           ; SOURCE LINE # 316
+0000 E4                CLR     A
+0001 FD                MOV     R5,A
+0002 FC                MOV     R4,A
+0003 7FAE              MOV     R7,#0AEH
+0005 FE                MOV     R6,A
+                                           ; SOURCE LINE # 317
+                                           ; SOURCE LINE # 318
+0006 120000      R     LCALL   L?0110
+                                           ; SOURCE LINE # 319
+0009 E4                CLR     A
+000A FD                MOV     R5,A
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 25  
+
+000B FC                MOV     R4,A
+000C 7F40              MOV     R7,#040H
+000E FE                MOV     R6,A
+000F 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 320
+0012 E4                CLR     A
+0013 FD                MOV     R5,A
+0014 FC                MOV     R4,A
+0015 7FB0              MOV     R7,#0B0H
+0017 FE                MOV     R6,A
+0018 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 321
+001B E4                CLR     A
+001C FD                MOV     R5,A
+001D FC                MOV     R4,A
+001E 7F81              MOV     R7,#081H
+0020 FE                MOV     R6,A
+0021 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 322
+0024 E4                CLR     A
+0025 FD                MOV     R5,A
+0026 FC                MOV     R4,A
+0027 7FFF              MOV     R7,#0FFH
+0029 FE                MOV     R6,A
+002A 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 323
+002D E4                CLR     A
+002E FD                MOV     R5,A
+002F FC                MOV     R4,A
+0030 7FA1              MOV     R7,#0A1H
+0032 FE                MOV     R6,A
+0033 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 324
+0036 E4                CLR     A
+0037 FD                MOV     R5,A
+0038 FC                MOV     R4,A
+0039 7FA6              MOV     R7,#0A6H
+003B FE                MOV     R6,A
+003C 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 325
+003F E4                CLR     A
+0040 FD                MOV     R5,A
+0041 FC                MOV     R4,A
+0042 7FA8              MOV     R7,#0A8H
+0044 FE                MOV     R6,A
+0045 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 326
+0048 E4                CLR     A
+0049 FD                MOV     R5,A
+004A FC                MOV     R4,A
+004B 7F3F              MOV     R7,#03FH
+004D FE                MOV     R6,A
+004E 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 327
+0051 E4                CLR     A
+0052 FD                MOV     R5,A
+0053 FC                MOV     R4,A
+0054 7FC8              MOV     R7,#0C8H
+0056 FE                MOV     R6,A
+0057 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 328
+005A E4                CLR     A
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 26  
+
+005B FD                MOV     R5,A
+005C FC                MOV     R4,A
+005D 7FD3              MOV     R7,#0D3H
+005F FE                MOV     R6,A
+0060 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 329
+0063 E4                CLR     A
+0064 FD                MOV     R5,A
+0065 FC                MOV     R4,A
+0066 FF                MOV     R7,A
+0067 FE                MOV     R6,A
+0068 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 331
+006B E4                CLR     A
+006C FD                MOV     R5,A
+006D FC                MOV     R4,A
+006E 7FD5              MOV     R7,#0D5H
+0070 FE                MOV     R6,A
+0071 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 332
+0074 E4                CLR     A
+0075 FD                MOV     R5,A
+0076 FC                MOV     R4,A
+0077 7F80              MOV     R7,#080H
+0079 FE                MOV     R6,A
+007A 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 334
+007D E4                CLR     A
+007E FD                MOV     R5,A
+007F FC                MOV     R4,A
+0080 7FD8              MOV     R7,#0D8H
+0082 FE                MOV     R6,A
+0083 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 335
+0086 E4                CLR     A
+0087 FD                MOV     R5,A
+0088 FC                MOV     R4,A
+0089 7F05              MOV     R7,#05H
+008B FE                MOV     R6,A
+008C 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 337
+008F E4                CLR     A
+0090 FD                MOV     R5,A
+0091 FC                MOV     R4,A
+0092 7FD9              MOV     R7,#0D9H
+0094 FE                MOV     R6,A
+0095 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 338
+0098 E4                CLR     A
+0099 FD                MOV     R5,A
+009A FC                MOV     R4,A
+009B 7FF1              MOV     R7,#0F1H
+009D FE                MOV     R6,A
+009E 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 340
+00A1 E4                CLR     A
+00A2 FD                MOV     R5,A
+00A3 FC                MOV     R4,A
+00A4 7FDA              MOV     R7,#0DAH
+00A6 FE                MOV     R6,A
+00A7 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 341
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 27  
+
+00AA E4                CLR     A
+00AB FD                MOV     R5,A
+00AC FC                MOV     R4,A
+00AD 7F12              MOV     R7,#012H
+00AF FE                MOV     R6,A
+00B0 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 343
+00B3 E4                CLR     A
+00B4 FD                MOV     R5,A
+00B5 FC                MOV     R4,A
+00B6 7FDB              MOV     R7,#0DBH
+00B8 FE                MOV     R6,A
+00B9 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 344
+00BC E4                CLR     A
+00BD FD                MOV     R5,A
+00BE FC                MOV     R4,A
+00BF 7F30              MOV     R7,#030H
+00C1 FE                MOV     R6,A
+00C2 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 346
+00C5 E4                CLR     A
+00C6 FD                MOV     R5,A
+00C7 FC                MOV     R4,A
+00C8 7F8D              MOV     R7,#08DH
+00CA FE                MOV     R6,A
+00CB 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 347
+00CE E4                CLR     A
+00CF FD                MOV     R5,A
+00D0 FC                MOV     R4,A
+00D1 7F14              MOV     R7,#014H
+00D3 FE                MOV     R6,A
+00D4 120000      R     LCALL   _OLED_WR_Byte
+                                           ; SOURCE LINE # 349
+00D7 E4                CLR     A
+00D8 FD                MOV     R5,A
+00D9 FC                MOV     R4,A
+00DA 7FAF              MOV     R7,#0AFH
+00DC FE                MOV     R6,A
+00DD 020000      R     LJMP    _OLED_WR_Byte
+             ; FUNCTION OLED_Init (END)
+
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 28  
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+OLED_Display_On. . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+P0 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0080H  1
+P1 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0090H  1
+P2 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A0H  1
+P3 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B0H  1
+T0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B4H  1
+AC . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D6H  1
+T1 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B5H  1
+T2 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0090H  1
+EA . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AFH  1
+_fill_picture. . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  fill_Data. . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0000H  1
+  m. . . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0001H  1
+  n. . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0001H  1
+IE . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A8H  1
+EXF2 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CEH  1
+RD . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B7H  1
+ES . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ACH  1
+_Delay_50ms. . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  Del_50ms . . . . . . . . . . . . . .  * REG *  DATA   U_INT    0006H  2
+  m. . . . . . . . . . . . . . . . . .  * REG *  DATA   U_INT    0004H  2
+IP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B8H  1
+RI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0098H  1
+OLED_Init. . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+INT0 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B2H  1
+CY . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D7H  1
+TI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0099H  1
+INT1 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B3H  1
+_Write_IIC_Data. . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  IIC_Data . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0004H  1
+RCAP2H . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CBH  1
+PS . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BCH  1
+SP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0081H  1
+T2EX . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0091H  1
+_OLED_ShowString . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  x. . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0000H  1
+  y. . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0001H  1
+  chr. . . . . . . . . . . . . . . . .  AUTO     DATA   PTR      0002H  3
+  Char_Size. . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0005H  1
+  j. . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0006H  1
+OV . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D2H  1
+_OLED_WR_Byte. . . . . . . . . . . . .  PUBLIC   CODE   PROC     001BH  -----
+  dat. . . . . . . . . . . . . . . . .  * REG *  DATA   U_INT    0002H  2
+  cmd. . . . . . . . . . . . . . . . .  * REG *  DATA   U_INT    0004H  2
+RCAP2L . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CAH  1
+C_T2 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C9H  1
+WR . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B6H  1
+_OLED_ShowChar . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  x. . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0000H  1
+  y. . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0001H  1
+  chr. . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0003H  1
+  Char_Size. . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0003H  1
+  c. . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0004H  1
+  i. . . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0001H  1
+F6x8 . . . . . . . . . . . . . . . . .  PUBLIC   CODE   ARRAY    0000H  552
+RCLK . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CDH  1
+Hzk. . . . . . . . . . . . . . . . . .  PUBLIC   CODE   ARRAY    0818H  448
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 29  
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+TCLK . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CCH  1
+SBUF . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0099H  1
+PCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0087H  1
+SCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0098H  1
+OLED_SDIN. . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A7H  1
+TMOD . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0089H  1
+TCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0088H  1
+_Write_IIC_Byte. . . . . . . . . . . .  PUBLIC   CODE   PROC     0007H  -----
+  IIC_Byte . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+  i. . . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0006H  1
+  m. . . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0005H  1
+  da . . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+F8X16. . . . . . . . . . . . . . . . .  PUBLIC   CODE   ARRAY    0228H  1520
+IIC_Wait_Ack . . . . . . . . . . . . .  PUBLIC   CODE   PROC     000BH  -----
+IE0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0089H  1
+IE1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008BH  1
+B. . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F0H  1
+OLED_On. . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  i. . . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0001H  1
+  n. . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0000H  1
+CP_RL2 . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C8H  1
+IIC_Start. . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+_OLED_Set_Pos. . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  x. . . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0001H  1
+  y. . . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0005H  1
+ACC. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00E0H  1
+ET0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A9H  1
+ET1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ABH  1
+TF0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008DH  1
+ET2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ADH  1
+TF1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008FH  1
+TF2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CFH  1
+RB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009AH  1
+TH0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008CH  1
+_OLED_ShowCHinese. . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  x. . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0000H  1
+  y. . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0001H  1
+  no . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0002H  1
+  t. . . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0001H  1
+  adder. . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0003H  1
+EX0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A8H  1
+IT0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0088H  1
+TH1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008DH  1
+TB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009BH  1
+EX1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AAH  1
+IT1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008AH  1
+TH2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CDH  1
+P. . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D0H  1
+SM0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009FH  1
+TL0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008AH  1
+SM1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009EH  1
+TL1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008BH  1
+SM2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009DH  1
+TL2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CCH  1
+_delay_ms. . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  ms . . . . . . . . . . . . . . . . .  * REG *  DATA   U_INT    0006H  2
+  a. . . . . . . . . . . . . . . . . .  * REG *  DATA   U_INT    0004H  2
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 30  
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+PT0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B9H  1
+PT1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BBH  1
+RS0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D3H  1
+PT2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BDH  1
+TR0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008CH  1
+RS1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D4H  1
+TR1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008EH  1
+TR2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CAH  1
+PX0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B8H  1
+PX1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BAH  1
+_OLED_ShowNum. . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  x. . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0000H  1
+  y. . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0001H  1
+  num. . . . . . . . . . . . . . . . .  AUTO     DATA   U_INT    0002H  2
+  len. . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0004H  1
+  size2. . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0005H  1
+  t. . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0006H  1
+  temp . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0007H  1
+  enshow . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0008H  1
+DPH. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0083H  1
+OLED_Display_Off . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+_oled_pow. . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  m. . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0000H  1
+  n. . . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0001H  1
+  result . . . . . . . . . . . . . . .  * REG *  DATA   U_INT    0006H  2
+IIC_Stop . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+DPL. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0082H  1
+EXEN2. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CBH  1
+_Delay_1ms . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  Del_1ms. . . . . . . . . . . . . . .  * REG *  DATA   U_INT    0006H  2
+  j. . . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0005H  1
+REN. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009CH  1
+T2CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C8H  1
+_Write_IIC_Command . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  IIC_Command. . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0004H  1
+OLED_SCL . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A6H  1
+RXD. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B0H  1
+OLED_Clear . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  i. . . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0001H  1
+  n. . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0000H  1
+TXD. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B1H  1
+F0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D5H  1
+_OLED_DrawBMP. . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  x0 . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0000H  1
+  y0 . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0005H  1
+  x1 . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0002H  1
+  y1 . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0003H  1
+  BMP. . . . . . . . . . . . . . . . .  AUTO     DATA   PTR      0004H  3
+  j. . . . . . . . . . . . . . . . . .  AUTO     DATA   U_INT    0007H  2
+  x. . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0009H  1
+  y. . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   000AH  1
+PSW. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D0H  1
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1367    ----
+   CONSTANT SIZE    =   2520    ----
+   XDATA SIZE       =   ----    ----
+C51 COMPILER V9.60.0.0   OLED                                                              05/13/2022 12:44:14 PAGE 31  
+
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      41
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

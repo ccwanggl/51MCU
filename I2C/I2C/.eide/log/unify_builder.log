@@ -1,0 +1,328 @@
+[2022-05-11 09:28:37]	[done]
+	build successfully !
+
+[2022-05-11 16:52:52]	[done]
+	build successfully !
+
+[2022-05-11 17:41:43]	compilation failed at : "c:\Users\guoliang\devSpace\MCU\51\sw_workspace\I2C\I2C\src\I2C.c", exit code: 2
+  at unify_builder.Program.Main (System.String[] args) [0x01860] in <de737e32be564f2a8d381213a3bdbc04>:0 
+---
+C51 COMPILER V9.60.0.0 - SN: Eval Version
+COPYRIGHT Copyright (C) 2012 - 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+*** ERROR C141 IN LINE 10 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 11 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 12 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 17 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 18 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 19 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 27 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 28 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 29 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 36 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 39 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 44 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 52 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 53 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 54 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 60 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 61 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+C51 COMPILATION COMPLETE.  0 WARNING(S),  17 ERROR(S)
+
+[2022-05-11 17:42:32]	compilation failed at : "c:\Users\guoliang\devSpace\MCU\51\sw_workspace\I2C\I2C\src\I2C.c", exit code: 2
+  at unify_builder.Program.Main (System.String[] args) [0x01860] in <de737e32be564f2a8d381213a3bdbc04>:0 
+---
+C51 COMPILER V9.60.0.0 - SN: Eval Version
+COPYRIGHT Copyright (C) 2012 - 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+*** ERROR C213 IN LINE 10 OF .\SRC\I2C.C: left side of asn-op not an lvalue
+C51 COMPILATION COMPLETE.  0 WARNING(S),  1 ERROR(S)
+
+[2022-05-11 17:45:58]	compilation failed at : "c:\Users\guoliang\devSpace\MCU\51\sw_workspace\I2C\I2C\src\I2C.c", exit code: 2
+  at unify_builder.Program.Main (System.String[] args) [0x01860] in <de737e32be564f2a8d381213a3bdbc04>:0 
+---
+C51 COMPILER V9.60.0.0 - SN: Eval Version
+COPYRIGHT Copyright (C) 2012 - 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+*** ERROR C213 IN LINE 10 OF .\SRC\I2C.C: left side of asn-op not an lvalue
+C51 COMPILATION COMPLETE.  0 WARNING(S),  1 ERROR(S)
+
+[2022-05-11 17:46:30]	compilation failed at : "c:\Users\guoliang\devSpace\MCU\51\sw_workspace\I2C\I2C\src\I2C.c", exit code: 2
+  at unify_builder.Program.Main (System.String[] args) [0x01860] in <de737e32be564f2a8d381213a3bdbc04>:0 
+---
+C51 COMPILER V9.60.0.0 - SN: Eval Version
+COPYRIGHT Copyright (C) 2012 - 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+*** ERROR C141 IN LINE 10 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 11 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 12 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 17 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 18 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 19 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 27 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 28 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 29 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 36 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 39 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 44 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 52 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 53 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 54 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 60 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+*** ERROR C141 IN LINE 61 OF .\SRC\I2C.C: syntax error near '=', expected ';'
+C51 COMPILATION COMPLETE.  0 WARNING(S),  17 ERROR(S)
+
+[2022-05-11 17:47:54]	compilation failed at : "c:\Users\guoliang\devSpace\MCU\51\sw_workspace\I2C\I2C\src\I2C.c", exit code: 2
+  at unify_builder.Program.Main (System.String[] args) [0x01860] in <de737e32be564f2a8d381213a3bdbc04>:0 
+---
+C51 COMPILER V9.60.0.0 - SN: Eval Version
+COPYRIGHT Copyright (C) 2012 - 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+*** ERROR C213 IN LINE 10 OF .\SRC\I2C.C: left side of asn-op not an lvalue
+C51 COMPILATION COMPLETE.  0 WARNING(S),  1 ERROR(S)
+
+[2022-05-11 17:56:04]	compilation failed at : "c:\Users\guoliang\devSpace\MCU\51\sw_workspace\I2C\I2C\src\I2C.c", exit code: 2
+  at unify_builder.Program.Main (System.String[] args) [0x01860] in <de737e32be564f2a8d381213a3bdbc04>:0 
+---
+C51 COMPILER V9.60.0.0 - SN: Eval Version
+COPYRIGHT Copyright (C) 2012 - 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+*** ERROR C213 IN LINE 10 OF .\SRC\I2C.C: left side of asn-op not an lvalue
+C51 COMPILATION COMPLETE.  0 WARNING(S),  1 ERROR(S)
+
+[2022-05-11 17:57:45]	compilation failed at : "c:\Users\guoliang\devSpace\MCU\51\sw_workspace\I2C\I2C\src\I2C.c", exit code: 2
+  at unify_builder.Program.Main (System.String[] args) [0x01860] in <de737e32be564f2a8d381213a3bdbc04>:0 
+---
+C51 COMPILER V9.60.0.0 - SN: Eval Version
+COPYRIGHT Copyright (C) 2012 - 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+*** ERROR C144 IN LINE 4 OF .\SRC\I2C.C: 'iic_scl': invalid sbit specifier
+*** ERROR C144 IN LINE 5 OF .\SRC\I2C.C: 'iic_sda': invalid sbit specifier
+*** ERROR C202 IN LINE 10 OF .\SRC\I2C.C: 'iic_sda': undefined identifier
+*** ERROR C202 IN LINE 11 OF .\SRC\I2C.C: 'iic_scl': undefined identifier
+*** ERROR C202 IN LINE 12 OF .\SRC\I2C.C: 'iic_sda': undefined identifier
+*** ERROR C202 IN LINE 17 OF .\SRC\I2C.C: 'iic_sda': undefined identifier
+*** ERROR C202 IN LINE 18 OF .\SRC\I2C.C: 'iic_scl': undefined identifier
+*** ERROR C202 IN LINE 19 OF .\SRC\I2C.C: 'iic_sda': undefined identifier
+*** ERROR C202 IN LINE 27 OF .\SRC\I2C.C: 'iic_sda': undefined identifier
+*** ERROR C202 IN LINE 28 OF .\SRC\I2C.C: 'iic_scl': undefined identifier
+*** ERROR C202 IN LINE 29 OF .\SRC\I2C.C: 'iic_sda': undefined identifier
+*** ERROR C202 IN LINE 36 OF .\SRC\I2C.C: 'iic_sda': undefined identifier
+*** ERROR C202 IN LINE 39 OF .\SRC\I2C.C: 'iic_scl': undefined identifier
+*** ERROR C202 IN LINE 40 OF .\SRC\I2C.C: 'iic_sda': undefined identifier
+*** ERROR C202 IN LINE 44 OF .\SRC\I2C.C: 'iic_scl': undefined identifier
+*** ERROR C202 IN LINE 52 OF .\SRC\I2C.C: 'iic_sda': undefined identifier
+*** ERROR C202 IN LINE 53 OF .\SRC\I2C.C: 'iic_scl': undefined identifier
+*** ERROR C202 IN LINE 54 OF .\SRC\I2C.C: 'iic_scl': undefined identifier
+*** ERROR C202 IN LINE 60 OF .\SRC\I2C.C: 'iic_sda': undefined identifier
+*** ERROR C202 IN LINE 61 OF .\SRC\I2C.C: 'iic_scl': undefined identifier
+*** ERROR C202 IN LINE 62 OF .\SRC\I2C.C: 'iic_sda': undefined identifier
+C51 COMPILATION COMPLETE.  0 WARNING(S),  21 ERROR(S)
+
+[2022-05-11 18:00:20]	compilation failed at : "c:\Users\guoliang\devSpace\MCU\51\sw_workspace\I2C\I2C\src\at24c02.c", exit code: 2
+  at unify_builder.Program.Main (System.String[] args) [0x01860] in <de737e32be564f2a8d381213a3bdbc04>:0 
+---
+C51 COMPILER V9.60.0.0 - SN: Eval Version
+COPYRIGHT Copyright (C) 2012 - 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+*** ERROR C141 IN LINE 6 OF .\SRC\AT24C02.C: syntax error near 'data', expected 'bit'
+*** ERROR C141 IN LINE 13 OF .\SRC\AT24C02.C: syntax error near 'data', expected 'sizeof'
+C51 COMPILATION COMPLETE.  0 WARNING(S),  2 ERROR(S)
+
+[2022-05-11 18:00:57]	compilation failed at : "c:\Users\guoliang\devSpace\MCU\51\sw_workspace\I2C\I2C\src\at24c02.c", exit code: 2
+  at unify_builder.Program.Main (System.String[] args) [0x01860] in <de737e32be564f2a8d381213a3bdbc04>:0 
+---
+C51 COMPILER V9.60.0.0 - SN: Eval Version
+COPYRIGHT Copyright (C) 2012 - 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+*** ERROR C141 IN LINE 6 OF .\SRC\AT24C02.C: syntax error near ')', expected '<id>'
+*** ERROR C141 IN LINE 13 OF .\SRC\AT24C02.C: syntax error near 'data', expected 'sizeof'
+C51 COMPILATION COMPLETE.  0 WARNING(S),  2 ERROR(S)
+
+[2022-05-11 18:02:37]	compilation failed at : "c:\Users\guoliang\devSpace\MCU\51\sw_workspace\I2C\I2C\src\at24c02.c", exit code: 2
+  at unify_builder.Program.Main (System.String[] args) [0x01860] in <de737e32be564f2a8d381213a3bdbc04>:0 
+---
+C51 COMPILER V9.60.0.0 - SN: Eval Version
+COPYRIGHT Copyright (C) 2012 - 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+*** ERROR C141 IN LINE 20 OF .\SRC\AT24C02.C: syntax error near ';', expected '<id>'
+*** ERROR C141 IN LINE 30 OF .\SRC\AT24C02.C: syntax error near 'data', expected '__asm'
+*** ERROR C141 IN LINE 34 OF .\SRC\AT24C02.C: syntax error near 'data', expected ';'
+C51 COMPILATION COMPLETE.  0 WARNING(S),  3 ERROR(S)
+
+[2022-05-11 18:02:58]	compilation failed at : "c:\Users\guoliang\devSpace\MCU\51\sw_workspace\I2C\I2C\src\at24c02.c", exit code: 2
+  at unify_builder.Program.Main (System.String[] args) [0x01860] in <de737e32be564f2a8d381213a3bdbc04>:0 
+---
+C51 COMPILER V9.60.0.0 - SN: Eval Version
+COPYRIGHT Copyright (C) 2012 - 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+*** ERROR C141 IN LINE 30 OF .\SRC\AT24C02.C: syntax error near 'data', expected '__asm'
+C51 COMPILATION COMPLETE.  0 WARNING(S),  1 ERROR(S)
+
+[2022-05-11 18:03:13]	compilation failed at : "c:\Users\guoliang\devSpace\MCU\51\sw_workspace\I2C\I2C\src\main.c", exit code: 2
+  at unify_builder.Program.Main (System.String[] args) [0x01860] in <de737e32be564f2a8d381213a3bdbc04>:0 
+---
+C51 COMPILER V9.60.0.0 - SN: Eval Version
+COPYRIGHT Copyright (C) 2012 - 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+*** ERROR C141 IN LINE 4 OF .\SRC\at24c02.h: syntax error near 'char', expected ')'
+C51 COMPILATION COMPLETE.  0 WARNING(S),  1 ERROR(S)
+
+[2022-05-11 18:03:29]	link failed !, exit code: 2
+  at unify_builder.Program.Main (System.String[] args) [0x01a04] in <de737e32be564f2a8d381213a3bdbc04>:0 
+---
+LX51 LINKER/LOCATER V4.66.97.0 - SN: Eval Version
+COPYRIGHT ARM Germany GmbH 1995 - 2019
+@c:\Users\guoliang\devSpace\MCU\51\sw_workspace\I2C\I2C\build\Debug\I2C.lnp 
+.\build\Debug\src\I2C.o,.\build\Debug\src\at24c02.o,.\build\Debug\src\delay.o,.\build\Debug\src\main.o TO .\build\Debug\I2C
+PRINT(.\build\Debug\I2C.map) REMOVEUNUSED
+*** ERROR L127: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _at23c02_read_byte
+    MODULE:  .\BUILD\DEBUG\SRC\MAIN.O (MAIN)
+*** ERROR L128: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _at23c02_read_byte
+    MODULE:  .\BUILD\DEBUG\SRC\MAIN.O (MAIN)
+    ADDRESS: 1000893H
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0184H BYTE (18%) *
+******************************************************************************
+Program Size: data=13.0 xdata=0 const=0 code=306
+LX51 RUN COMPLETE.  0 WARNING(S),  2 ERROR(S)
+
+
+[2022-05-11 18:05:16]	link failed !, exit code: 2
+  at unify_builder.Program.Main (System.String[] args) [0x01a04] in <de737e32be564f2a8d381213a3bdbc04>:0 
+---
+LX51 LINKER/LOCATER V4.66.97.0 - SN: Eval Version
+COPYRIGHT ARM Germany GmbH 1995 - 2019
+@c:\Users\guoliang\devSpace\MCU\51\sw_workspace\I2C\I2C\build\Debug\I2C.lnp 
+.\build\Debug\src\I2C.o,.\build\Debug\src\at24c02.o,.\build\Debug\src\delay.o,.\build\Debug\src\main.o TO .\build\Debug\I2C
+PRINT(.\build\Debug\I2C.map) REMOVEUNUSED
+*** ERROR L127: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _at23c02_read_byte
+    MODULE:  .\BUILD\DEBUG\SRC\MAIN.O (MAIN)
+*** ERROR L128: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _at23c02_read_byte
+    MODULE:  .\BUILD\DEBUG\SRC\MAIN.O (MAIN)
+    ADDRESS: 1000893H
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0184H BYTE (18%) *
+******************************************************************************
+Program Size: data=13.0 xdata=0 const=0 code=306
+LX51 RUN COMPLETE.  0 WARNING(S),  2 ERROR(S)
+
+
+[2022-05-11 18:06:11]	compilation failed at : "c:\Users\guoliang\devSpace\MCU\51\sw_workspace\I2C\I2C\src\main.c", exit code: 2
+  at unify_builder.Program.Main (System.String[] args) [0x01860] in <de737e32be564f2a8d381213a3bdbc04>:0 
+---
+C51 COMPILER V9.60.0.0 - SN: Eval Version
+COPYRIGHT Copyright (C) 2012 - 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+*** WARNING C206 IN LINE 9 OF .\SRC\MAIN.C: 'at23c02_write_byte': missing function-prototype
+*** ERROR C267 IN LINE 9 OF .\SRC\MAIN.C: 'at23c02_write_byte': requires ANSI-style prototype
+C51 COMPILATION COMPLETE.  1 WARNING(S),  1 ERROR(S)
+
+[2022-05-11 18:06:57]	compilation failed at : "c:\Users\guoliang\devSpace\MCU\51\sw_workspace\I2C\I2C\src\at24c02.c", exit code: 2
+  at unify_builder.Program.Main (System.String[] args) [0x01860] in <de737e32be564f2a8d381213a3bdbc04>:0 
+---
+C51 COMPILER V9.60.0.0 - SN: Eval Version
+COPYRIGHT Copyright (C) 2012 - 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+*** ERROR C141 IN LINE 4 OF .\SRC\at24c02.h: syntax error near 'char', expected ')'
+*** ERROR C141 IN LINE 7 OF .\SRC\AT24C02.C: syntax error near 'char', expected ')'
+*** ERROR C202 IN LINE 14 OF .\SRC\AT24C02.C: 'Data': undefined identifier
+C51 COMPILATION COMPLETE.  0 WARNING(S),  3 ERROR(S)
+
+[2022-05-11 18:07:10]	compilation failed at : "c:\Users\guoliang\devSpace\MCU\51\sw_workspace\I2C\I2C\src\at24c02.c", exit code: 2
+  at unify_builder.Program.Main (System.String[] args) [0x01860] in <de737e32be564f2a8d381213a3bdbc04>:0 
+---
+C51 COMPILER V9.60.0.0 - SN: Eval Version
+COPYRIGHT Copyright (C) 2012 - 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+*** ERROR C141 IN LINE 7 OF .\SRC\AT24C02.C: syntax error near 'char', expected ')'
+C51 COMPILATION COMPLETE.  0 WARNING(S),  1 ERROR(S)
+
+[2022-05-11 18:07:25]	compilation failed at : "c:\Users\guoliang\devSpace\MCU\51\sw_workspace\I2C\I2C\src\main.c", exit code: 2
+  at unify_builder.Program.Main (System.String[] args) [0x01860] in <de737e32be564f2a8d381213a3bdbc04>:0 
+---
+C51 COMPILER V9.60.0.0 - SN: Eval Version
+COPYRIGHT Copyright (C) 2012 - 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+*** WARNING C206 IN LINE 9 OF .\SRC\MAIN.C: 'at23c02_write_byte': missing function-prototype
+*** ERROR C267 IN LINE 9 OF .\SRC\MAIN.C: 'at23c02_write_byte': requires ANSI-style prototype
+C51 COMPILATION COMPLETE.  1 WARNING(S),  1 ERROR(S)
+
+[2022-05-11 18:08:12]	[done]
+	build successfully !
+
+[2022-05-11 18:09:05]	[done]
+	build successfully !
+
+[2022-05-11 18:11:33]	[done]
+	build successfully !
+
+[2022-05-11 18:14:57]	[done]
+	build successfully !
+
+[2022-05-11 18:18:13]	[done]
+	build successfully !
+
+[2022-05-11 18:23:49]	[done]
+	build successfully !
+
+[2022-05-11 18:24:17]	[done]
+	build successfully !
+
+[2022-05-11 22:59:14]	[done]
+	build successfully !
+
+[2022-05-11 23:03:43]	[done]
+	build successfully !
+
+[2022-05-11 23:08:56]	[done]
+	build successfully !
+
+[2022-05-11 23:10:25]	[done]
+	build successfully !
+
+[2022-05-11 23:11:30]	[done]
+	build successfully !
+
+[2022-05-11 23:13:35]	[done]
+	build successfully !
+
+[2022-05-11 23:42:18]	[done]
+	build successfully !
+
+[2022-05-11 23:48:39]	[done]
+	build successfully !
+
+[2022-05-12 10:29:18]	[done]
+	build successfully !
+
+[2022-05-12 10:29:41]	[done]
+	build successfully !
+
+[2022-05-12 10:32:12]	[done]
+	build successfully !
+
+[2022-05-12 10:34:30]	[done]
+	build successfully !
+
+[2022-05-12 10:34:56]	[done]
+	build successfully !
+
+[2022-05-12 10:35:21]	[done]
+	build successfully !
+
+[2022-05-12 10:35:47]	[done]
+	build successfully !
+
+[2022-05-12 10:36:10]	[done]
+	build successfully !
+
+[2022-05-12 10:36:32]	[done]
+	build successfully !
+
+[2022-05-12 10:36:58]	[done]
+	build successfully !
+
+[2022-05-12 10:41:26]	[done]
+	build successfully !
+
+[2022-05-12 10:41:52]	[done]
+	build successfully !
+
+[2022-05-12 10:42:13]	[done]
+	build successfully !
+
+[2022-05-12 10:42:36]	[done]
+	build successfully !
+
+[2022-05-12 10:43:16]	[done]
+	build successfully !
+

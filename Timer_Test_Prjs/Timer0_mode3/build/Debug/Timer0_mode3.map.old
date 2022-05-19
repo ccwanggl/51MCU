@@ -1,0 +1,133 @@
+LX51 LINKER/LOCATER V4.66.97.0                                                          05/19/2022  15:49:46  PAGE 1
+
+
+LX51 LINKER/LOCATER V4.66.97.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\LX51.EXE .\BUILD\DEBUG\SRC\MAIN.O TO .\BUILD\DEBUG\TIMER0_MODE3 PRINT (.\build\Debug\Timer0_mode3.map
+>> ) REMOVEUNUSED
+
+
+CPU MODE:     8051 MODE
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\BUILD\DEBUG\SRC\MAIN.O (MAIN)
+         COMMENT TYPE 0: C51 V9.60.0.0
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+         COMMENT TYPE 1: A51 / ASM51 Assembler
+
+
+ACTIVE MEMORY CLASSES OF MODULE:  .\BUILD\DEBUG\TIMER0_MODE3 (MAIN)
+
+BASE        START       END         USED      MEMORY CLASS
+==========================================================
+C:000000H   C:000000H   C:00FFFFH   00007EH   CODE
+I:000000H   I:000000H   I:00007FH   00000CH   DATA
+I:000000H   I:000000H   I:0000FFH   000001H   IDATA
+
+
+MEMORY MAP OF MODULE:  .\BUILD\DEBUG\TIMER0_MODE3 (MAIN)
+
+
+START     STOP      LENGTH    ALIGN  RELOC    MEMORY CLASS   SEGMENT NAME
+=========================================================================
+
+* * * * * * * * * * *   D A T A   M E M O R Y   * * * * * * * * * * * * *
+000000H   000007H   000008H   ---    AT..     DATA           "REG BANK 0"
+000008H   00000BH   000004H   BYTE   UNIT     DATA           ?DT?MAIN
+00000CH   00000CH   000001H   BYTE   UNIT     IDATA          ?STACK
+
+* * * * * * * * * * *   C O D E   M E M O R Y   * * * * * * * * * * * * *
+000000H   000002H   000003H   ---    OFFS..   CODE           ?CO??C_STARTUP?0
+000003H   00000AH   000008H   ---    ---      **GAP**
+00000BH   00000DH   000003H   BYTE   OFFS..   CODE           ?MAIN?0000B
+00000EH   000018H   00000BH   BYTE   UNIT     CODE           ?PR?MAIN?MAIN
+000019H   00001AH   000002H   ---    ---      **GAP**
+00001BH   00001DH   000003H   BYTE   OFFS..   CODE           ?MAIN?0001B
+00001EH   000041H   000024H   BYTE   UNIT     CODE           ?PR?TIMER1_RESPONSE?MAIN
+000042H   000056H   000015H   BYTE   UNIT     CODE           ?PR?TIMER_INIT?MAIN
+000057H   0007FFH   0007A9H   ---    ---      **GAP**
+000800H   000824H   000025H   BYTE   UNIT     CODE           ?PR?TIMER0_RESPONSE?MAIN
+000825H   00085DH   000039H   ---    ---      **GAP**
+00085EH   000869H   00000CH   BYTE   UNIT     CODE           ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   .\BUILD\DEBUG\TIMER0_MODE3 (MAIN)
+
+
+FUNCTION/MODULE              BIT_GROUP   DATA_GROUP 
+--> CALLED FUNCTION/MODULE  START  STOP  START  STOP
+====================================================
+TIMER0_RESPONSE/MAIN        ----- -----  ----- -----
+
+*** NEW ROOT **************
+
+TIMER1_RESPONSE/MAIN        ----- -----  ----- -----
+
+*** NEW ROOT **************
+
+LX51 LINKER/LOCATER V4.66.97.0                                                        05/19/2022  15:49:46  PAGE 2
+
+
+?C_C51STARTUP               ----- -----  ----- -----
+  +--> MAIN/MAIN
+
+MAIN/MAIN                   ----- -----  ----- -----
+  +--> TIMER_INIT/MAIN
+
+TIMER_INIT/MAIN             ----- -----  ----- -----
+
+
+
+PUBLIC SYMBOLS OF MODULE:  .\BUILD\DEBUG\TIMER0_MODE3 (MAIN)
+
+
+      VALUE       CLASS    TYPE      PUBLIC SYMBOL NAME
+      =================================================
+      00000000H   NUMBER   ---       ?C?CODESEG
+      00000000H   NUMBER   ---       ?C?XDATASEG
+      0100000EH   CODE     ---       ?C_START
+      01000000H   CODE     ---       ?C_STARTUP
+      00000008H   DATA     WORD      cnt1
+      0000000AH   DATA     WORD      cnt2
+      0100000EH   CODE     ---       main
+      01000800H   CODE     ---       timer0_response
+      0100001EH   CODE     ---       timer1_response
+      01000042H   CODE     ---       timer_init
+
+
+
+SYMBOL TABLE OF MODULE:  .\BUILD\DEBUG\TIMER0_MODE3 (MAIN)
+
+      VALUE       REP       CLASS    TYPE      SYMBOL NAME
+      ====================================================
+      ---         MODULE    ---      ---       MAIN
+      0000000AH   PUBLIC    DATA     WORD      cnt2
+      00000008H   PUBLIC    DATA     WORD      cnt1
+      0100001EH   PUBLIC    CODE     ---       timer1_response
+      01000800H   PUBLIC    CODE     ---       timer0_response
+      0100000EH   PUBLIC    CODE     ---       main
+      01000042H   PUBLIC    CODE     ---       timer_init
+
+      01000042H   BLOCK     CODE     ---       LVL=0
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      0100000EH   BLOCK     CODE     ---       LVL=0
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      01000800H   BLOCK     CODE     ---       LVL=0
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      0100001EH   BLOCK     CODE     ---       LVL=0
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      ---         MODULE    ---      ---       ?C_STARTUP
+      01000000H   PUBLIC    CODE     ---       ?C_STARTUP
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 006FH BYTE ( 5%) *
+******************************************************************************
+
+Program Size: data=13.0 xdata=0 const=0 code=126
+LX51 RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

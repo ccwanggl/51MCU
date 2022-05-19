@@ -1,0 +1,239 @@
+C51 COMPILER V9.60.0.0   AT24C02                                                           05/12/2022 10:43:16 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE AT24C02
+OBJECT MODULE PLACED IN .\build\Debug\src\at24c02.o
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.exe .\SRC\AT24C02.C PRINT(.\build\Debug\src\at24c02.lst) OMF2 TABS(4) CODE N
+                    -OCOND SYMBOLS OPTIMIZE(8,SPEED) SMALL ROM(LARGE) INCDIR(.\..\..\..\..\..\..\..\..\Keil_v5\C51\INC;.\src) DEFINE(__UVISIO
+                    -N_VERSION=526) OBJECT(.\build\Debug\src\at24c02.o)
+
+line level    source
+
+   1          #include <REG52.H>
+   2          #include "I2C.h"
+   3          #include "at24c02.h"
+   4          
+   5          #define AT24C02_ADDRESS 0xA0
+   6          
+   7          void at24c02_write_byte(unsigned char addr, unsigned char Data)
+   8          {
+   9   1          iic_start();
+  10   1          iic_send_byte(AT24C02_ADDRESS);
+  11   1          iic_recive_ack();
+  12   1          iic_send_byte(addr);
+  13   1          iic_recive_ack();
+  14   1          iic_send_byte(Data);
+  15   1          iic_recive_ack();
+  16   1          iic_stop();
+  17   1      }
+  18          
+  19          unsigned char at24c02_read_byte(unsigned char addr)
+  20          {
+  21   1          unsigned char Data;
+  22   1          iic_start();
+  23   1          iic_send_byte(AT24C02_ADDRESS);
+  24   1          iic_recive_ack();
+  25   1          iic_send_byte(addr);
+  26   1          iic_recive_ack();
+  27   1      
+  28   1          iic_start();
+  29   1          iic_send_byte(AT24C02_ADDRESS | 0x01);
+  30   1          iic_recive_ack();
+  31   1          Data = iic_recive_byte();
+  32   1          iic_send_ack(1);
+  33   1          iic_stop();
+  34   1      
+  35   1          return Data;
+  36   1      }
+C51 COMPILER V9.60.0.0   AT24C02                                                           05/12/2022 10:43:16 PAGE 2   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION _at24c02_write_byte (BEGIN)
+                                           ; SOURCE LINE # 7
+0000 8F00        R     MOV     addr,R7
+0002 8D00        R     MOV     Data,R5
+                                           ; SOURCE LINE # 8
+                                           ; SOURCE LINE # 9
+0004 120000      E     LCALL   iic_start
+                                           ; SOURCE LINE # 10
+0007 7FA0              MOV     R7,#0A0H
+0009 120000      E     LCALL   _iic_send_byte
+                                           ; SOURCE LINE # 11
+000C 120000      E     LCALL   iic_recive_ack
+                                           ; SOURCE LINE # 12
+000F AF00        R     MOV     R7,addr
+0011 120000      E     LCALL   _iic_send_byte
+                                           ; SOURCE LINE # 13
+0014 120000      E     LCALL   iic_recive_ack
+                                           ; SOURCE LINE # 14
+0017 AF00        R     MOV     R7,Data
+0019 120000      E     LCALL   _iic_send_byte
+                                           ; SOURCE LINE # 15
+001C 120000      E     LCALL   iic_recive_ack
+                                           ; SOURCE LINE # 16
+001F 020000      E     LJMP    iic_stop
+             ; FUNCTION _at24c02_write_byte (END)
+
+             ; FUNCTION _at24c02_read_byte (BEGIN)
+                                           ; SOURCE LINE # 19
+0000 8F00        R     MOV     addr,R7
+                                           ; SOURCE LINE # 20
+                                           ; SOURCE LINE # 22
+0002 120000      E     LCALL   iic_start
+                                           ; SOURCE LINE # 23
+0005 7FA0              MOV     R7,#0A0H
+0007 120000      E     LCALL   _iic_send_byte
+                                           ; SOURCE LINE # 24
+000A 120000      E     LCALL   iic_recive_ack
+                                           ; SOURCE LINE # 25
+000D AF00        R     MOV     R7,addr
+000F 120000      E     LCALL   _iic_send_byte
+                                           ; SOURCE LINE # 26
+0012 120000      E     LCALL   iic_recive_ack
+                                           ; SOURCE LINE # 28
+0015 120000      E     LCALL   iic_start
+                                           ; SOURCE LINE # 29
+0018 7FA1              MOV     R7,#0A1H
+001A 120000      E     LCALL   _iic_send_byte
+                                           ; SOURCE LINE # 30
+001D 120000      E     LCALL   iic_recive_ack
+                                           ; SOURCE LINE # 31
+0020 120000      E     LCALL   iic_recive_byte
+0023 8F00        R     MOV     Data,R7
+                                           ; SOURCE LINE # 32
+0025 7F01              MOV     R7,#01H
+0027 120000      E     LCALL   _iic_send_ack
+                                           ; SOURCE LINE # 33
+002A 120000      E     LCALL   iic_stop
+                                           ; SOURCE LINE # 35
+002D AF00        R     MOV     R7,Data
+C51 COMPILER V9.60.0.0   AT24C02                                                           05/12/2022 10:43:16 PAGE 3   
+
+                                           ; SOURCE LINE # 36
+002F 22                RET     
+             ; FUNCTION _at24c02_read_byte (END)
+
+C51 COMPILER V9.60.0.0   AT24C02                                                           05/12/2022 10:43:16 PAGE 4   
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+P0 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0080H  1
+P1 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0090H  1
+P2 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A0H  1
+P3 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B0H  1
+T0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B4H  1
+AC . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D6H  1
+T1 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B5H  1
+T2 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0090H  1
+EA . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AFH  1
+IE . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A8H  1
+EXF2 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CEH  1
+RD . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B7H  1
+ES . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ACH  1
+_at24c02_read_byte . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  addr . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0000H  1
+  Data . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0001H  1
+IP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B8H  1
+RI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0098H  1
+INT0 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B2H  1
+CY . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D7H  1
+TI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0099H  1
+INT1 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B3H  1
+RCAP2H . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CBH  1
+PS . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BCH  1
+SP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0081H  1
+T2EX . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0091H  1
+OV . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D2H  1
+RCAP2L . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CAH  1
+_at24c02_write_byte. . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  addr . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0000H  1
+  Data . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0001H  1
+C_T2 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C9H  1
+WR . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B6H  1
+iic_recive_ack . . . . . . . . . . . .  EXTERN   CODE   PROC     -----  -----
+RCLK . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CDH  1
+TCLK . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CCH  1
+iic_recive_byte. . . . . . . . . . . .  EXTERN   CODE   PROC     -----  -----
+SBUF . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0099H  1
+PCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0087H  1
+SCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0098H  1
+TMOD . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0089H  1
+TCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0088H  1
+IE0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0089H  1
+IE1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008BH  1
+B. . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F0H  1
+CP_RL2 . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C8H  1
+ACC. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00E0H  1
+iic_start. . . . . . . . . . . . . . .  EXTERN   CODE   PROC     -----  -----
+ET0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A9H  1
+ET1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ABH  1
+TF0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008DH  1
+ET2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ADH  1
+TF1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008FH  1
+TF2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CFH  1
+RB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009AH  1
+TH0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008CH  1
+EX0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A8H  1
+C51 COMPILER V9.60.0.0   AT24C02                                                           05/12/2022 10:43:16 PAGE 5   
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+IT0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0088H  1
+TH1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008DH  1
+TB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009BH  1
+EX1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AAH  1
+IT1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008AH  1
+TH2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CDH  1
+P. . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D0H  1
+SM0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009FH  1
+TL0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008AH  1
+SM1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009EH  1
+TL1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008BH  1
+SM2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009DH  1
+TL2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CCH  1
+_iic_send_ack. . . . . . . . . . . . .  EXTERN   CODE   PROC     -----  -----
+PT0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B9H  1
+PT1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BBH  1
+RS0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D3H  1
+PT2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BDH  1
+TR0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008CH  1
+RS1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D4H  1
+TR1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008EH  1
+TR2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CAH  1
+PX0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B8H  1
+PX1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BAH  1
+_iic_send_byte . . . . . . . . . . . .  EXTERN   CODE   PROC     -----  -----
+DPH. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0083H  1
+iic_stop . . . . . . . . . . . . . . .  EXTERN   CODE   PROC     -----  -----
+DPL. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0082H  1
+EXEN2. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CBH  1
+REN. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009CH  1
+T2CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C8H  1
+RXD. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B0H  1
+TXD. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B1H  1
+F0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D5H  1
+PSW. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D0H  1
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     82    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

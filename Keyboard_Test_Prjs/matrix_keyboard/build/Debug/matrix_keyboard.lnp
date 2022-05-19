@@ -1,0 +1,3 @@
+
+.\build\Debug\src\delay.o,.\build\Debug\src\main.o,.\build\Debug\src\mkeyboard.o TO .\build\Debug\matrix_keyboard
+PRINT(.\build\Debug\matrix_keyboard.map) REMOVEUNUSED

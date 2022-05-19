@@ -1,0 +1,3 @@
+
+.\build\Debug\src\I2C.o,.\build\Debug\src\delay.o,.\build\Debug\src\main.o,.\build\Debug\src\oled.o,.\build\Debug\src\oled12864.o TO .\build\Debug\OLED
+PRINT(.\build\Debug\OLED.map) REMOVEUNUSED

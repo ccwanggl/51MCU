@@ -1,0 +1,1 @@
+.\..\..\lib\delay.c PRINT(.\build\Debug\__\__\lib\delay.lst) OMF2 TABS(4) CODE NOCOND SYMBOLS OPTIMIZE(8,SPEED) SMALL ROM(LARGE) INCDIR(.\..\..\..\..\..\..\..\..\Keil_v5\C51\INC;.\src;.\..\..\lib) DEFINE(__UVISION_VERSION='526') OBJECT(.\build\Debug\__\__\lib\delay.o)

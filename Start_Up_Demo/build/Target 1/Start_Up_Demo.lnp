@@ -1,0 +1,3 @@
+
+".\build\Target 1\delay.o",".\build\Target 1\main.o" TO ".\build\Target 1\Start_Up_Demo"
+PRINT(".\build\Target 1\Start_Up_Demo.map") REMOVEUNUSED

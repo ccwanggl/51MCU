@@ -1,0 +1,3 @@
+
+.\build\Debug\src\delay.o,.\build\Debug\src\main.o TO .\build\Debug\dynamic_segment_led
+PRINT(.\build\Debug\dynamic_segment_led.map) REMOVEUNUSED

@@ -1,0 +1,276 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              05/18/2022 10:20:09 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\build\Debug\src\main.o
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.exe .\SRC\MAIN.C PRINT(.\build\Debug\src\main.lst) OMF2 TABS(4) CODE NOCOND 
+                    -SYMBOLS OPTIMIZE(8,SPEED) SMALL ROM(LARGE) INCDIR(.\..\..\..\..\..\..\..\..\Keil_v5\C51\INC;.\src) DEFINE(__UVISION_VERS
+                    -ION=526) OBJECT(.\build\Debug\src\main.o)
+
+line level    source
+
+   1          #include <REG52.H>
+   2          #include "Indep_keyboard.h"
+   3          #include "delay.h"
+   4          
+   5          int main()
+   6          {
+   7   1          unsigned char cnt = 0 ;
+   8   1          P0 = ~(0x01);
+   9   1      
+  10   1          while(1)
+  11   1          {
+  12   2              if(SS1 == 0)
+  13   2              {
+  14   3                  delay_x_ms(20);
+  15   3                  while(SS1 == 0);
+  16   3                  delay_x_ms(20);
+  17   3      
+  18   3                  cnt++;
+  19   3                  if(cnt == 8)
+  20   3                  {
+  21   4                      cnt  = 0;
+  22   4                  }
+  23   3      
+  24   3                  P0 = ~(0x01 << cnt);
+  25   3              }
+  26   2              if(SS2 == 0)
+  27   2              {
+  28   3                  delay_x_ms(20);
+  29   3                  while(SS2 == 0);
+  30   3                  delay_x_ms(20);
+  31   3      
+  32   3                  if(cnt == 0)
+  33   3                  {
+  34   4                      cnt  = 7;
+  35   4                  }
+  36   3                  else
+  37   3                  {
+  38   4                      cnt--;
+  39   4                  }
+  40   3      
+  41   3                  P0 = ~(0x01 << cnt);
+  42   3              }
+  43   2          }
+  44   1      }
+C51 COMPILER V9.60.0.0   MAIN                                                              05/18/2022 10:20:09 PAGE 2   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION main (BEGIN)
+                                           ; SOURCE LINE # 5
+                                           ; SOURCE LINE # 6
+                                           ; SOURCE LINE # 7
+0000 E4                CLR     A
+0001 F500        R     MOV     cnt,A
+                                           ; SOURCE LINE # 8
+0003 7580FE            MOV     P0,#0FEH
+0006         ?C0001:
+                                           ; SOURCE LINE # 10
+                                           ; SOURCE LINE # 11
+                                           ; SOURCE LINE # 12
+0006 20902B            JB      SS1,?C0003
+                                           ; SOURCE LINE # 13
+                                           ; SOURCE LINE # 14
+0009 7F14              MOV     R7,#014H
+000B 7E00              MOV     R6,#00H
+000D 120000      E     LCALL   _delay_x_ms
+0010         ?C0004:
+                                           ; SOURCE LINE # 15
+0010 3090FD            JNB     SS1,?C0004
+                                           ; SOURCE LINE # 16
+0013 7F14              MOV     R7,#014H
+0015 7E00              MOV     R6,#00H
+0017 120000      E     LCALL   _delay_x_ms
+                                           ; SOURCE LINE # 18
+001A 0500        R     INC     cnt
+                                           ; SOURCE LINE # 19
+001C E500        R     MOV     A,cnt
+001E 6408              XRL     A,#08H
+0020 7002              JNZ     ?C0006
+                                           ; SOURCE LINE # 20
+                                           ; SOURCE LINE # 21
+0022 F500        R     MOV     cnt,A
+                                           ; SOURCE LINE # 22
+0024         ?C0006:
+                                           ; SOURCE LINE # 24
+0024 AF00        R     MOV     R7,cnt
+0026 A807              MOV     R0,AR7
+0028 7401              MOV     A,#01H
+002A 08                INC     R0
+002B 8002              SJMP    ?C0014
+002D         ?C0013:
+002D C3                CLR     C
+002E 33                RLC     A
+002F         ?C0014:
+002F D8FC              DJNZ    R0,?C0013
+0031 F4                CPL     A
+0032 F580              MOV     P0,A
+                                           ; SOURCE LINE # 25
+0034         ?C0003:
+                                           ; SOURCE LINE # 26
+0034 2091CF            JB      SS2,?C0001
+                                           ; SOURCE LINE # 27
+                                           ; SOURCE LINE # 28
+0037 7F14              MOV     R7,#014H
+0039 7E00              MOV     R6,#00H
+003B 120000      E     LCALL   _delay_x_ms
+003E         ?C0008:
+C51 COMPILER V9.60.0.0   MAIN                                                              05/18/2022 10:20:09 PAGE 3   
+
+                                           ; SOURCE LINE # 29
+003E 3091FD            JNB     SS2,?C0008
+                                           ; SOURCE LINE # 30
+0041 7F14              MOV     R7,#014H
+0043 7E00              MOV     R6,#00H
+0045 120000      E     LCALL   _delay_x_ms
+                                           ; SOURCE LINE # 32
+0048 E500        R     MOV     A,cnt
+004A 7005              JNZ     ?C0010
+                                           ; SOURCE LINE # 33
+                                           ; SOURCE LINE # 34
+004C 750007      R     MOV     cnt,#07H
+                                           ; SOURCE LINE # 35
+004F 8002              SJMP    ?C0011
+0051         ?C0010:
+                                           ; SOURCE LINE # 37
+                                           ; SOURCE LINE # 38
+0051 1500        R     DEC     cnt
+                                           ; SOURCE LINE # 39
+0053         ?C0011:
+                                           ; SOURCE LINE # 41
+0053 AF00        R     MOV     R7,cnt
+0055 A807              MOV     R0,AR7
+0057 7401              MOV     A,#01H
+0059 08                INC     R0
+005A 8002              SJMP    ?C0016
+005C         ?C0015:
+005C C3                CLR     C
+005D 33                RLC     A
+005E         ?C0016:
+005E D8FC              DJNZ    R0,?C0015
+0060 F4                CPL     A
+0061 F580              MOV     P0,A
+                                           ; SOURCE LINE # 42
+                                           ; SOURCE LINE # 43
+0063 80A1              SJMP    ?C0001
+             ; FUNCTION main (END)
+
+C51 COMPILER V9.60.0.0   MAIN                                                              05/18/2022 10:20:09 PAGE 4   
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+P0 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0080H  1
+P1 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0090H  1
+P2 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A0H  1
+P3 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B0H  1
+T0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B4H  1
+AC . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D6H  1
+T1 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B5H  1
+T2 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0090H  1
+EA . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AFH  1
+IE . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A8H  1
+EXF2 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CEH  1
+RD . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B7H  1
+ES . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ACH  1
+IP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B8H  1
+RI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0098H  1
+INT0 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B2H  1
+CY . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D7H  1
+TI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0099H  1
+INT1 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B3H  1
+RCAP2H . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CBH  1
+PS . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BCH  1
+SP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0081H  1
+T2EX . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0091H  1
+OV . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D2H  1
+RCAP2L . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CAH  1
+main . . . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  cnt. . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0000H  1
+C_T2 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C9H  1
+WR . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B6H  1
+_delay_x_ms. . . . . . . . . . . . . .  EXTERN   CODE   PROC     -----  -----
+RCLK . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CDH  1
+TCLK . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CCH  1
+SBUF . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0099H  1
+PCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0087H  1
+SCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0098H  1
+TMOD . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0089H  1
+TCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0088H  1
+IE0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0089H  1
+IE1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008BH  1
+B. . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F0H  1
+CP_RL2 . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C8H  1
+ACC. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00E0H  1
+ET0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A9H  1
+ET1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ABH  1
+TF0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008DH  1
+ET2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ADH  1
+TF1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008FH  1
+TF2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CFH  1
+RB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009AH  1
+TH0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008CH  1
+EX0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A8H  1
+IT0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0088H  1
+TH1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008DH  1
+TB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009BH  1
+EX1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AAH  1
+IT1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008AH  1
+TH2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CDH  1
+C51 COMPILER V9.60.0.0   MAIN                                                              05/18/2022 10:20:09 PAGE 5   
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+P. . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D0H  1
+SM0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009FH  1
+TL0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008AH  1
+SM1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009EH  1
+TL1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008BH  1
+SM2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009DH  1
+TL2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CCH  1
+PT0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B9H  1
+PT1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BBH  1
+RS0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D3H  1
+PT2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BDH  1
+TR0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008CH  1
+RS1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D4H  1
+SS1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0090H  1
+TR1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008EH  1
+SS2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0091H  1
+TR2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CAH  1
+PX0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B8H  1
+SS3. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0092H  1
+PX1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BAH  1
+SS4. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0093H  1
+DPH. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0083H  1
+DPL. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0082H  1
+EXEN2. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CBH  1
+REN. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009CH  1
+T2CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C8H  1
+RXD. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B0H  1
+TXD. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B1H  1
+F0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D5H  1
+PSW. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D0H  1
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    101    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,90 @@
+[2022-05-12 10:43:55]	[done]
+	build successfully !
+
+[2022-05-12 10:44:31]	[done]
+	build successfully !
+
+[2022-05-12 10:45:21]	[done]
+	build successfully !
+
+[2022-05-12 10:45:48]	[done]
+	build successfully !
+
+[2022-05-12 10:46:10]	[done]
+	build successfully !
+
+[2022-05-12 10:46:36]	[done]
+	build successfully !
+
+[2022-05-12 10:46:40]	[done]
+	build successfully !
+
+[2022-05-12 10:47:31]	[done]
+	build successfully !
+
+[2022-05-12 10:51:22]	[done]
+	build successfully !
+
+[2022-05-12 10:52:54]	[done]
+	build successfully !
+
+[2022-05-19 00:08:23]	[done]
+	build successfully !
+
+[2022-05-19 00:10:09]	[done]
+	build successfully !
+
+[2022-05-19 09:14:54]	[done]
+	build successfully !
+
+[2022-05-19 09:16:10]	[done]
+	build successfully !
+
+[2022-05-19 09:16:39]	[done]
+	build successfully !
+
+[2022-05-19 09:18:07]	[done]
+	build successfully !
+
+[2022-05-19 09:19:05]	[done]
+	build successfully !
+
+[2022-05-19 09:20:20]	[done]
+	build successfully !
+
+[2022-05-19 15:45:00]	[done]
+	build successfully !
+
+[2022-05-19 15:46:17]	[done]
+	build successfully !
+
+[2022-05-19 15:46:47]	compilation failed at : "c:\Users\guoliang\devSpace\MCU\51\sw_workspace\BELL\src\main.c", exit code: 2
+  at unify_builder.Program.Main (System.String[] args) [0x0178e] in <6d8c0f91f6d94a3cb9e4240f591355c3>:0 
+---
+C51 COMPILER V9.60.0.0 - SN: Eval Version
+COPYRIGHT Copyright (C) 2012 - 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+*** ERROR C141 IN LINE 9 OF .\SRC\MAIN.C: syntax error near 'unsigned', expected '__asm'
+*** ERROR C202 IN LINE 9 OF .\SRC\MAIN.C: 'i': undefined identifier
+C51 COMPILATION COMPLETE.  0 WARNING(S),  2 ERROR(S)
+
+[2022-05-19 15:47:24]	compilation failed at : "c:\Users\guoliang\devSpace\MCU\51\sw_workspace\BELL\src\main.c", exit code: 2
+  at unify_builder.Program.Main (System.String[] args) [0x0178e] in <6d8c0f91f6d94a3cb9e4240f591355c3>:0 
+---
+C51 COMPILER V9.60.0.0 - SN: Eval Version
+COPYRIGHT Copyright (C) 2012 - 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+*** ERROR C141 IN LINE 9 OF .\SRC\MAIN.C: syntax error near 'unsigned', expected '__asm'
+*** ERROR C202 IN LINE 9 OF .\SRC\MAIN.C: 'i': undefined identifier
+C51 COMPILATION COMPLETE.  0 WARNING(S),  2 ERROR(S)
+
+[2022-05-19 15:47:31]	compilation failed at : "c:\Users\guoliang\devSpace\MCU\51\sw_workspace\BELL\src\main.c", exit code: 2
+  at unify_builder.Program.Main (System.String[] args) [0x0178e] in <6d8c0f91f6d94a3cb9e4240f591355c3>:0 
+---
+C51 COMPILER V9.60.0.0 - SN: Eval Version
+COPYRIGHT Copyright (C) 2012 - 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+*** ERROR C141 IN LINE 9 OF .\SRC\MAIN.C: syntax error near 'unsigned', expected '__asm'
+*** ERROR C202 IN LINE 9 OF .\SRC\MAIN.C: 'i': undefined identifier
+C51 COMPILATION COMPLETE.  0 WARNING(S),  2 ERROR(S)
+
+[2022-05-19 15:47:46]	[done]
+	build successfully !
+

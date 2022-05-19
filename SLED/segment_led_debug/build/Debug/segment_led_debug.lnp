@@ -1,0 +1,3 @@
+
+.\build\Debug\src\delay.o,.\build\Debug\src\main.o TO .\build\Debug\segment_led_debug
+PRINT(.\build\Debug\segment_led_debug.map) REMOVEUNUSED

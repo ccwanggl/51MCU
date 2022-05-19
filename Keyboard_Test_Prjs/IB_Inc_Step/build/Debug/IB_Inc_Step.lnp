@@ -1,0 +1,3 @@
+
+.\build\Debug\src\delay.o,.\build\Debug\src\main.o TO .\build\Debug\IB_Inc_Step
+PRINT(.\build\Debug\IB_Inc_Step.map) REMOVEUNUSED

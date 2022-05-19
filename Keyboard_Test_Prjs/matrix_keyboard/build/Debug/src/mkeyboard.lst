@@ -1,0 +1,736 @@
+C51 COMPILER V9.60.0.0   MKEYBOARD                                                         05/17/2022 20:11:18 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MKEYBOARD
+OBJECT MODULE PLACED IN .\build\Debug\src\mkeyboard.o
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.exe .\SRC\MKEYBOARD.C PRINT(.\build\Debug\src\mkeyboard.lst) OMF2 TABS(4) CO
+                    -DE NOCOND SYMBOLS OPTIMIZE(8,SPEED) SMALL ROM(LARGE) INCDIR(.\..\..\..\..\..\..\..\..\Keil_v5\C51\INC;.\src) DEFINE(__UV
+                    -ISION_VERSION=526) OBJECT(.\build\Debug\src\mkeyboard.o)
+
+line level    source
+
+   1          #include <REG52.h>
+   2          
+   3          #include "delay.h"
+   4          #include "mkeyboard.h"
+   5          
+   6          
+   7          unsigned char keyboard()
+   8          {
+   9   1          int key_number = 0;
+  10   1      
+  11   1          P1 = 0xff;
+  12   1          P1 = P1 & 0xfe;        
+  13   1          // P10 = 0;
+  14   1      
+  15   1          if( P17 == 0 ) 
+  16   1          //if( (P1 & 0x80 )== 0 ) 
+  17   1          { 
+  18   2              delay_x_ms(5);
+  19   2              if( P17 == 0 ) 
+  20   2              //if( (P1 & 0x80 )== 0 ) 
+  21   2              {
+  22   3                  key_number = 1; 
+  23   3                  return ~key_number; 
+  24   3              }
+  25   2          }
+  26   1      
+  27   1          if( (P1 & 0x40 )== 0 ) 
+  28   1          { 
+  29   2              delay_x_ms(5);
+  30   2              if( (P1 & 0x40 )== 0 ) 
+  31   2              {
+  32   3                  key_number = 4; 
+  33   3                  return ~key_number; 
+  34   3              }
+  35   2          }
+  36   1      
+  37   1          if( (P1 & 0x20 )== 0 ) 
+  38   1          { 
+  39   2              delay_x_ms(5);
+  40   2              if( (P1 & 0x20 )== 0 ) 
+  41   2              {
+  42   3                  key_number = 7; 
+  43   3                  return ~key_number; 
+  44   3              }
+  45   2          }
+  46   1      
+  47   1          if( (P1 & 0x10 )== 0 ) 
+  48   1          { 
+  49   2              delay_x_ms(5);
+  50   2              if( (P1 & 0x10 )== 0 ) 
+  51   2              {
+  52   3                  key_number = 0; 
+  53   3                  return ~key_number; 
+C51 COMPILER V9.60.0.0   MKEYBOARD                                                         05/17/2022 20:11:18 PAGE 2   
+
+  54   3              }
+  55   2          }
+  56   1      
+  57   1      
+  58   1          P1 = 0xff;
+  59   1          P1 = P1 & 0xfd;
+  60   1      
+  61   1          if( (P1 & 0x80 )== 0 ) 
+  62   1          { 
+  63   2              delay_x_ms(5);
+  64   2              if( (P1 & 0x80 )== 0 ) 
+  65   2              {
+  66   3                  key_number = 2; 
+  67   3                  return ~key_number; 
+  68   3              }
+  69   2          }
+  70   1          if( (P1 & 0x40 )== 0 ) 
+  71   1          { 
+  72   2              delay_x_ms(5);
+  73   2              if( (P1 & 0x40 )== 0 ) 
+  74   2              {
+  75   3                  key_number = 5; 
+  76   3                  return ~key_number; 
+  77   3              }
+  78   2          }
+  79   1          if( (P1 & 0x20 )== 0 ) 
+  80   1          { 
+  81   2              delay_x_ms(5);
+  82   2              if( (P1 & 0x20 )== 0 ) 
+  83   2              {
+  84   3                  key_number = 8; 
+  85   3                  return ~key_number; 
+  86   3              }
+  87   2          }
+  88   1          if( (P1 & 0x10 )== 0 ) 
+  89   1          { 
+  90   2              delay_x_ms(5);
+  91   2              if( (P1 & 0x10 )== 0 ) 
+  92   2              {
+  93   3                  key_number = 0; 
+  94   3                  return ~key_number; 
+  95   3              }
+  96   2          }
+  97   1      
+  98   1          P1 = 0xff;
+  99   1          P1 = P1 & 0xfb;
+ 100   1      
+ 101   1          if( (P1 & 0x80 )== 0 ) 
+ 102   1          { 
+ 103   2              delay_x_ms(5);
+ 104   2              if( (P1 & 0x80 )== 0 ) 
+ 105   2              {
+ 106   3                  key_number = 3; 
+ 107   3                  return ~key_number; 
+ 108   3              }
+ 109   2          }
+ 110   1          if( (P1 & 0x40 )== 0 ) 
+ 111   1          { 
+ 112   2              delay_x_ms(5);
+ 113   2              if( (P1 & 0x40 )== 0 ) 
+ 114   2              {
+ 115   3                  key_number = 6; 
+C51 COMPILER V9.60.0.0   MKEYBOARD                                                         05/17/2022 20:11:18 PAGE 3   
+
+ 116   3                  return ~key_number; 
+ 117   3              }
+ 118   2          }
+ 119   1          if( (P1 & 0x20 )== 0 ) 
+ 120   1          { 
+ 121   2              delay_x_ms(5);
+ 122   2              if( (P1 & 0x20 )== 0 ) 
+ 123   2              {
+ 124   3                  key_number = 9; 
+ 125   3                  return ~key_number; 
+ 126   3              }
+ 127   2          }
+ 128   1          if( (P1 & 0x10 )== 0 ) 
+ 129   1          { 
+ 130   2              delay_x_ms(5);
+ 131   2              if( (P1 & 0x10 )== 0 ) 
+ 132   2              {
+ 133   3                  key_number = 0; 
+ 134   3                  return ~key_number; 
+ 135   3              }
+ 136   2          }
+ 137   1          
+ 138   1      
+ 139   1          P1 = 0xff;
+ 140   1          P1 = P1 & 0xf7;
+ 141   1      
+ 142   1          // 
+ 143   1          if( (P1 & 0x80 )== 0 ) 
+ 144   1          { 
+ 145   2              delay_x_ms(5); 
+ 146   2              if((P1 & 0x80) == 0) 
+ 147   2              {
+ 148   3                  key_number = 0; 
+ 149   3                  return ~key_number; 
+ 150   3              }
+ 151   2          }
+ 152   1      
+ 153   1          if( (P1 & 0x40 )== 0 ) 
+ 154   1          { 
+ 155   2              delay_x_ms(5);
+ 156   2              if( (P1 & 0x40 )== 0 ) 
+ 157   2              {
+ 158   3                  key_number = 0; 
+ 159   3                  return ~key_number; 
+ 160   3              }
+ 161   2          }
+ 162   1      
+ 163   1      
+ 164   1          if( (P1 & 0x20 )== 0 ) 
+ 165   1          { 
+ 166   2              delay_x_ms(5);
+ 167   2              if( (P1 & 0x20 )== 0 ) 
+ 168   2              {
+ 169   3                  key_number = 0; 
+ 170   3                  return ~key_number; 
+ 171   3              }
+ 172   2          }
+ 173   1      
+ 174   1      
+ 175   1          if( (P1 & 0x10 )== 0 ) 
+ 176   1          { 
+ 177   2              delay_x_ms(5);
+C51 COMPILER V9.60.0.0   MKEYBOARD                                                         05/17/2022 20:11:18 PAGE 4   
+
+ 178   2              if( (P1 & 0x10 )== 0 ) 
+ 179   2              {
+ 180   3                  key_number = 0; 
+ 181   3                  return ~key_number; 
+ 182   3              }
+ 183   2          }
+ 184   1          return 0xff;
+ 185   1      }
+C51 COMPILER V9.60.0.0   MKEYBOARD                                                         05/17/2022 20:11:18 PAGE 5   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION keyboard (BEGIN)
+                                           ; SOURCE LINE # 7
+                                           ; SOURCE LINE # 8
+                                           ; SOURCE LINE # 9
+0000 E4                CLR     A
+0001 F500        R     MOV     key_number,A
+0003 F500        R     MOV     key_number+01H,A
+                                           ; SOURCE LINE # 11
+0005 7590FF            MOV     P1,#0FFH
+                                           ; SOURCE LINE # 12
+0008 5390FE            ANL     P1,#0FEH
+                                           ; SOURCE LINE # 15
+000B 209712            JB      P17,?C0001
+                                           ; SOURCE LINE # 17
+                                           ; SOURCE LINE # 18
+000E 7F05              MOV     R7,#05H
+0010 FE                MOV     R6,A
+0011 120000      E     LCALL   _delay_x_ms
+                                           ; SOURCE LINE # 19
+0014 209709            JB      P17,?C0001
+                                           ; SOURCE LINE # 21
+                                           ; SOURCE LINE # 22
+0017 750000      R     MOV     key_number,#00H
+001A 750001      R     MOV     key_number+01H,#01H
+                                           ; SOURCE LINE # 23
+001D 020000      R     LJMP    ?C0048
+                                           ; SOURCE LINE # 24
+                                           ; SOURCE LINE # 25
+0020         ?C0001:
+                                           ; SOURCE LINE # 27
+0020 E590              MOV     A,P1
+0022 5440              ANL     A,#040H
+0024 7014              JNZ     ?C0004
+                                           ; SOURCE LINE # 28
+                                           ; SOURCE LINE # 29
+0026 7F05              MOV     R7,#05H
+0028 FE                MOV     R6,A
+0029 120000      E     LCALL   _delay_x_ms
+                                           ; SOURCE LINE # 30
+002C E590              MOV     A,P1
+002E 5440              ANL     A,#040H
+0030 7008              JNZ     ?C0004
+                                           ; SOURCE LINE # 31
+                                           ; SOURCE LINE # 32
+0032 F500        R     MOV     key_number,A
+0034 750004      R     MOV     key_number+01H,#04H
+                                           ; SOURCE LINE # 33
+0037         ?C0034:
+0037 020000      R     LJMP    ?C0048
+                                           ; SOURCE LINE # 34
+                                           ; SOURCE LINE # 35
+003A         ?C0004:
+                                           ; SOURCE LINE # 37
+003A E590              MOV     A,P1
+003C 5420              ANL     A,#020H
+003E 7014              JNZ     ?C0006
+                                           ; SOURCE LINE # 38
+                                           ; SOURCE LINE # 39
+0040 7F05              MOV     R7,#05H
+C51 COMPILER V9.60.0.0   MKEYBOARD                                                         05/17/2022 20:11:18 PAGE 6   
+
+0042 FE                MOV     R6,A
+0043 120000      E     LCALL   _delay_x_ms
+                                           ; SOURCE LINE # 40
+0046 E590              MOV     A,P1
+0048 5420              ANL     A,#020H
+004A 7008              JNZ     ?C0006
+                                           ; SOURCE LINE # 41
+                                           ; SOURCE LINE # 42
+004C F500        R     MOV     key_number,A
+004E 750007      R     MOV     key_number+01H,#07H
+                                           ; SOURCE LINE # 43
+0051         ?C0035:
+0051 020000      R     LJMP    ?C0048
+                                           ; SOURCE LINE # 44
+                                           ; SOURCE LINE # 45
+0054         ?C0006:
+                                           ; SOURCE LINE # 47
+0054 E590              MOV     A,P1
+0056 5410              ANL     A,#010H
+0058 7013              JNZ     ?C0008
+                                           ; SOURCE LINE # 48
+                                           ; SOURCE LINE # 49
+005A 7F05              MOV     R7,#05H
+005C FE                MOV     R6,A
+005D 120000      E     LCALL   _delay_x_ms
+                                           ; SOURCE LINE # 50
+0060 E590              MOV     A,P1
+0062 5410              ANL     A,#010H
+0064 7007              JNZ     ?C0008
+                                           ; SOURCE LINE # 51
+                                           ; SOURCE LINE # 52
+0066 F500        R     MOV     key_number,A
+0068 F500        R     MOV     key_number+01H,A
+                                           ; SOURCE LINE # 53
+006A         ?C0036:
+006A 020000      R     LJMP    ?C0048
+                                           ; SOURCE LINE # 54
+                                           ; SOURCE LINE # 55
+006D         ?C0008:
+                                           ; SOURCE LINE # 58
+006D 7590FF            MOV     P1,#0FFH
+                                           ; SOURCE LINE # 59
+0070 5390FD            ANL     P1,#0FDH
+                                           ; SOURCE LINE # 61
+0073 E590              MOV     A,P1
+0075 5480              ANL     A,#080H
+0077 7014              JNZ     ?C0010
+                                           ; SOURCE LINE # 62
+                                           ; SOURCE LINE # 63
+0079 7F05              MOV     R7,#05H
+007B FE                MOV     R6,A
+007C 120000      E     LCALL   _delay_x_ms
+                                           ; SOURCE LINE # 64
+007F E590              MOV     A,P1
+0081 5480              ANL     A,#080H
+0083 7008              JNZ     ?C0010
+                                           ; SOURCE LINE # 65
+                                           ; SOURCE LINE # 66
+0085 F500        R     MOV     key_number,A
+0087 750002      R     MOV     key_number+01H,#02H
+                                           ; SOURCE LINE # 67
+008A         ?C0037:
+C51 COMPILER V9.60.0.0   MKEYBOARD                                                         05/17/2022 20:11:18 PAGE 7   
+
+008A 020000      R     LJMP    ?C0048
+                                           ; SOURCE LINE # 68
+                                           ; SOURCE LINE # 69
+008D         ?C0010:
+                                           ; SOURCE LINE # 70
+008D E590              MOV     A,P1
+008F 5440              ANL     A,#040H
+0091 7014              JNZ     ?C0012
+                                           ; SOURCE LINE # 71
+                                           ; SOURCE LINE # 72
+0093 7F05              MOV     R7,#05H
+0095 FE                MOV     R6,A
+0096 120000      E     LCALL   _delay_x_ms
+                                           ; SOURCE LINE # 73
+0099 E590              MOV     A,P1
+009B 5440              ANL     A,#040H
+009D 7008              JNZ     ?C0012
+                                           ; SOURCE LINE # 74
+                                           ; SOURCE LINE # 75
+009F F500        R     MOV     key_number,A
+00A1 750005      R     MOV     key_number+01H,#05H
+                                           ; SOURCE LINE # 76
+00A4         ?C0038:
+00A4 020000      R     LJMP    ?C0048
+                                           ; SOURCE LINE # 77
+                                           ; SOURCE LINE # 78
+00A7         ?C0012:
+                                           ; SOURCE LINE # 79
+00A7 E590              MOV     A,P1
+00A9 5420              ANL     A,#020H
+00AB 7014              JNZ     ?C0014
+                                           ; SOURCE LINE # 80
+                                           ; SOURCE LINE # 81
+00AD 7F05              MOV     R7,#05H
+00AF FE                MOV     R6,A
+00B0 120000      E     LCALL   _delay_x_ms
+                                           ; SOURCE LINE # 82
+00B3 E590              MOV     A,P1
+00B5 5420              ANL     A,#020H
+00B7 7008              JNZ     ?C0014
+                                           ; SOURCE LINE # 83
+                                           ; SOURCE LINE # 84
+00B9 F500        R     MOV     key_number,A
+00BB 750008      R     MOV     key_number+01H,#08H
+                                           ; SOURCE LINE # 85
+00BE         ?C0039:
+00BE 020000      R     LJMP    ?C0048
+                                           ; SOURCE LINE # 86
+                                           ; SOURCE LINE # 87
+00C1         ?C0014:
+                                           ; SOURCE LINE # 88
+00C1 E590              MOV     A,P1
+00C3 5410              ANL     A,#010H
+00C5 7013              JNZ     ?C0016
+                                           ; SOURCE LINE # 89
+                                           ; SOURCE LINE # 90
+00C7 7F05              MOV     R7,#05H
+00C9 FE                MOV     R6,A
+00CA 120000      E     LCALL   _delay_x_ms
+                                           ; SOURCE LINE # 91
+00CD E590              MOV     A,P1
+00CF 5410              ANL     A,#010H
+C51 COMPILER V9.60.0.0   MKEYBOARD                                                         05/17/2022 20:11:18 PAGE 8   
+
+00D1 7007              JNZ     ?C0016
+                                           ; SOURCE LINE # 92
+                                           ; SOURCE LINE # 93
+00D3 F500        R     MOV     key_number,A
+00D5 F500        R     MOV     key_number+01H,A
+                                           ; SOURCE LINE # 94
+00D7         ?C0040:
+00D7 020000      R     LJMP    ?C0048
+                                           ; SOURCE LINE # 95
+                                           ; SOURCE LINE # 96
+00DA         ?C0016:
+                                           ; SOURCE LINE # 98
+00DA 7590FF            MOV     P1,#0FFH
+                                           ; SOURCE LINE # 99
+00DD 5390FB            ANL     P1,#0FBH
+                                           ; SOURCE LINE # 101
+00E0 E590              MOV     A,P1
+00E2 5480              ANL     A,#080H
+00E4 7014              JNZ     ?C0018
+                                           ; SOURCE LINE # 102
+                                           ; SOURCE LINE # 103
+00E6 7F05              MOV     R7,#05H
+00E8 FE                MOV     R6,A
+00E9 120000      E     LCALL   _delay_x_ms
+                                           ; SOURCE LINE # 104
+00EC E590              MOV     A,P1
+00EE 5480              ANL     A,#080H
+00F0 7008              JNZ     ?C0018
+                                           ; SOURCE LINE # 105
+                                           ; SOURCE LINE # 106
+00F2 F500        R     MOV     key_number,A
+00F4 750003      R     MOV     key_number+01H,#03H
+                                           ; SOURCE LINE # 107
+00F7         ?C0041:
+00F7 020000      R     LJMP    ?C0048
+                                           ; SOURCE LINE # 108
+                                           ; SOURCE LINE # 109
+00FA         ?C0018:
+                                           ; SOURCE LINE # 110
+00FA E590              MOV     A,P1
+00FC 5440              ANL     A,#040H
+00FE 7014              JNZ     ?C0020
+                                           ; SOURCE LINE # 111
+                                           ; SOURCE LINE # 112
+0100 7F05              MOV     R7,#05H
+0102 FE                MOV     R6,A
+0103 120000      E     LCALL   _delay_x_ms
+                                           ; SOURCE LINE # 113
+0106 E590              MOV     A,P1
+0108 5440              ANL     A,#040H
+010A 7008              JNZ     ?C0020
+                                           ; SOURCE LINE # 114
+                                           ; SOURCE LINE # 115
+010C F500        R     MOV     key_number,A
+010E 750006      R     MOV     key_number+01H,#06H
+                                           ; SOURCE LINE # 116
+0111         ?C0042:
+0111 020000      R     LJMP    ?C0048
+                                           ; SOURCE LINE # 117
+                                           ; SOURCE LINE # 118
+0114         ?C0020:
+                                           ; SOURCE LINE # 119
+C51 COMPILER V9.60.0.0   MKEYBOARD                                                         05/17/2022 20:11:18 PAGE 9   
+
+0114 E590              MOV     A,P1
+0116 5420              ANL     A,#020H
+0118 7013              JNZ     ?C0022
+                                           ; SOURCE LINE # 120
+                                           ; SOURCE LINE # 121
+011A 7F05              MOV     R7,#05H
+011C FE                MOV     R6,A
+011D 120000      E     LCALL   _delay_x_ms
+                                           ; SOURCE LINE # 122
+0120 E590              MOV     A,P1
+0122 5420              ANL     A,#020H
+0124 7007              JNZ     ?C0022
+                                           ; SOURCE LINE # 123
+                                           ; SOURCE LINE # 124
+0126 F500        R     MOV     key_number,A
+0128 750009      R     MOV     key_number+01H,#09H
+                                           ; SOURCE LINE # 125
+012B         ?C0043:
+012B 807C              SJMP    ?C0048
+                                           ; SOURCE LINE # 126
+                                           ; SOURCE LINE # 127
+012D         ?C0022:
+                                           ; SOURCE LINE # 128
+012D E590              MOV     A,P1
+012F 5410              ANL     A,#010H
+0131 7012              JNZ     ?C0024
+                                           ; SOURCE LINE # 129
+                                           ; SOURCE LINE # 130
+0133 7F05              MOV     R7,#05H
+0135 FE                MOV     R6,A
+0136 120000      E     LCALL   _delay_x_ms
+                                           ; SOURCE LINE # 131
+0139 E590              MOV     A,P1
+013B 5410              ANL     A,#010H
+013D 7006              JNZ     ?C0024
+                                           ; SOURCE LINE # 132
+                                           ; SOURCE LINE # 133
+013F F500        R     MOV     key_number,A
+0141 F500        R     MOV     key_number+01H,A
+                                           ; SOURCE LINE # 134
+0143         ?C0044:
+0143 8064              SJMP    ?C0048
+                                           ; SOURCE LINE # 135
+                                           ; SOURCE LINE # 136
+0145         ?C0024:
+                                           ; SOURCE LINE # 139
+0145 7590FF            MOV     P1,#0FFH
+                                           ; SOURCE LINE # 140
+0148 5390F7            ANL     P1,#0F7H
+                                           ; SOURCE LINE # 143
+014B E590              MOV     A,P1
+014D 5480              ANL     A,#080H
+014F 7012              JNZ     ?C0026
+                                           ; SOURCE LINE # 144
+                                           ; SOURCE LINE # 145
+0151 7F05              MOV     R7,#05H
+0153 FE                MOV     R6,A
+0154 120000      E     LCALL   _delay_x_ms
+                                           ; SOURCE LINE # 146
+0157 E590              MOV     A,P1
+0159 5480              ANL     A,#080H
+015B 7006              JNZ     ?C0026
+C51 COMPILER V9.60.0.0   MKEYBOARD                                                         05/17/2022 20:11:18 PAGE 10  
+
+                                           ; SOURCE LINE # 147
+                                           ; SOURCE LINE # 148
+015D F500        R     MOV     key_number,A
+015F F500        R     MOV     key_number+01H,A
+                                           ; SOURCE LINE # 149
+0161         ?C0045:
+0161 8046              SJMP    ?C0048
+                                           ; SOURCE LINE # 150
+                                           ; SOURCE LINE # 151
+0163         ?C0026:
+                                           ; SOURCE LINE # 153
+0163 E590              MOV     A,P1
+0165 5440              ANL     A,#040H
+0167 7012              JNZ     ?C0028
+                                           ; SOURCE LINE # 154
+                                           ; SOURCE LINE # 155
+0169 7F05              MOV     R7,#05H
+016B FE                MOV     R6,A
+016C 120000      E     LCALL   _delay_x_ms
+                                           ; SOURCE LINE # 156
+016F E590              MOV     A,P1
+0171 5440              ANL     A,#040H
+0173 7006              JNZ     ?C0028
+                                           ; SOURCE LINE # 157
+                                           ; SOURCE LINE # 158
+0175 F500        R     MOV     key_number,A
+0177 F500        R     MOV     key_number+01H,A
+                                           ; SOURCE LINE # 159
+0179         ?C0046:
+0179 802E              SJMP    ?C0048
+                                           ; SOURCE LINE # 160
+                                           ; SOURCE LINE # 161
+017B         ?C0028:
+                                           ; SOURCE LINE # 164
+017B E590              MOV     A,P1
+017D 5420              ANL     A,#020H
+017F 7012              JNZ     ?C0030
+                                           ; SOURCE LINE # 165
+                                           ; SOURCE LINE # 166
+0181 7F05              MOV     R7,#05H
+0183 FE                MOV     R6,A
+0184 120000      E     LCALL   _delay_x_ms
+                                           ; SOURCE LINE # 167
+0187 E590              MOV     A,P1
+0189 5420              ANL     A,#020H
+018B 7006              JNZ     ?C0030
+                                           ; SOURCE LINE # 168
+                                           ; SOURCE LINE # 169
+018D F500        R     MOV     key_number,A
+018F F500        R     MOV     key_number+01H,A
+                                           ; SOURCE LINE # 170
+0191         ?C0047:
+0191 8016              SJMP    ?C0048
+                                           ; SOURCE LINE # 171
+                                           ; SOURCE LINE # 172
+0193         ?C0030:
+                                           ; SOURCE LINE # 175
+0193 E590              MOV     A,P1
+0195 5410              ANL     A,#010H
+0197 7015              JNZ     ?C0032
+                                           ; SOURCE LINE # 176
+                                           ; SOURCE LINE # 177
+C51 COMPILER V9.60.0.0   MKEYBOARD                                                         05/17/2022 20:11:18 PAGE 11  
+
+0199 7F05              MOV     R7,#05H
+019B FE                MOV     R6,A
+019C 120000      E     LCALL   _delay_x_ms
+                                           ; SOURCE LINE # 178
+019F E590              MOV     A,P1
+01A1 5410              ANL     A,#010H
+01A3 7009              JNZ     ?C0032
+                                           ; SOURCE LINE # 179
+                                           ; SOURCE LINE # 180
+01A5 F500        R     MOV     key_number,A
+01A7 F500        R     MOV     key_number+01H,A
+                                           ; SOURCE LINE # 181
+01A9         ?C0048:
+01A9 E500        R     MOV     A,key_number+01H
+01AB F4                CPL     A
+01AC FF                MOV     R7,A
+01AD 22                RET     
+                                           ; SOURCE LINE # 182
+                                           ; SOURCE LINE # 183
+01AE         ?C0032:
+                                           ; SOURCE LINE # 184
+01AE 7FFF              MOV     R7,#0FFH
+                                           ; SOURCE LINE # 185
+01B0         ?C0003:
+01B0 22                RET     
+             ; FUNCTION keyboard (END)
+
+C51 COMPILER V9.60.0.0   MKEYBOARD                                                         05/17/2022 20:11:18 PAGE 12  
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+P0 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0080H  1
+P1 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0090H  1
+P2 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A0H  1
+P3 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B0H  1
+T0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B4H  1
+AC . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D6H  1
+T1 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B5H  1
+T2 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0090H  1
+EA . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AFH  1
+IE . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A8H  1
+EXF2 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CEH  1
+RD . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B7H  1
+ES . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ACH  1
+IP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B8H  1
+RI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0098H  1
+INT0 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B2H  1
+CY . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D7H  1
+TI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0099H  1
+INT1 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B3H  1
+RCAP2H . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CBH  1
+PS . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BCH  1
+SP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0081H  1
+T2EX . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0091H  1
+OV . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D2H  1
+RCAP2L . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CAH  1
+C_T2 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C9H  1
+WR . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B6H  1
+_delay_x_ms. . . . . . . . . . . . . .  EXTERN   CODE   PROC     -----  -----
+RCLK . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CDH  1
+TCLK . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CCH  1
+P10. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0090H  1
+SBUF . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0099H  1
+PCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0087H  1
+P11. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0091H  1
+P12. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0092H  1
+P13. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0093H  1
+SCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0098H  1
+P14. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0094H  1
+TMOD . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0089H  1
+TCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0088H  1
+P15. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0095H  1
+P16. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0096H  1
+P17. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0097H  1
+IE0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0089H  1
+IE1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008BH  1
+B. . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F0H  1
+CP_RL2 . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C8H  1
+ACC. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00E0H  1
+ET0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A9H  1
+ET1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ABH  1
+TF0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008DH  1
+ET2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ADH  1
+TF1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008FH  1
+TF2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CFH  1
+RB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009AH  1
+TH0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008CH  1
+EX0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A8H  1
+C51 COMPILER V9.60.0.0   MKEYBOARD                                                         05/17/2022 20:11:18 PAGE 13  
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+IT0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0088H  1
+TH1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008DH  1
+TB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009BH  1
+EX1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AAH  1
+IT1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008AH  1
+TH2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CDH  1
+P. . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D0H  1
+SM0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009FH  1
+TL0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008AH  1
+SM1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009EH  1
+TL1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008BH  1
+SM2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009DH  1
+TL2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CCH  1
+PT0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B9H  1
+PT1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BBH  1
+RS0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D3H  1
+keyboard . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  key_number . . . . . . . . . . . . .  AUTO     DATA   INT      0000H  2
+PT2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BDH  1
+TR0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008CH  1
+RS1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D4H  1
+TR1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008EH  1
+TR2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CAH  1
+PX0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B8H  1
+PX1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BAH  1
+DPH. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0083H  1
+DPL. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0082H  1
+EXEN2. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CBH  1
+REN. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009CH  1
+T2CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C8H  1
+RXD. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B0H  1
+TXD. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B1H  1
+F0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D5H  1
+PSW. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D0H  1
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    433    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

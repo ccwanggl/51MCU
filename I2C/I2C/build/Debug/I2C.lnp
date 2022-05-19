@@ -1,0 +1,3 @@
+
+.\build\Debug\src\I2C.o,.\build\Debug\src\at24c02.o,.\build\Debug\src\delay.o,.\build\Debug\src\main.o TO .\build\Debug\I2C
+PRINT(.\build\Debug\I2C.map) REMOVEUNUSED

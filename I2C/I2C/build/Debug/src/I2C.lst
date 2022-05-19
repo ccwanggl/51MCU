@@ -1,0 +1,377 @@
+C51 COMPILER V9.60.0.0   I2C                                                               05/12/2022 10:43:16 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE I2C
+OBJECT MODULE PLACED IN .\build\Debug\src\I2C.o
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.exe .\SRC\I2C.C PRINT(.\build\Debug\src\I2C.lst) OMF2 TABS(4) CODE NOCOND SY
+                    -MBOLS OPTIMIZE(8,SPEED) SMALL ROM(LARGE) INCDIR(.\..\..\..\..\..\..\..\..\Keil_v5\C51\INC;.\src) DEFINE(__UVISION_VERSIO
+                    -N=526) OBJECT(.\build\Debug\src\I2C.o)
+
+line level    source
+
+   1          #include "I2C.h"
+   2          #include <reg52.h>
+   3          
+   4          sbit iic_scl  = P2^6;
+   5          sbit iic_sda  = P2^7;
+   6          
+   7          
+   8          void iic_start()
+   9          {
+  10   1          iic_sda = 1;
+  11   1          iic_scl = 1;
+  12   1          iic_sda = 0;
+  13   1          iic_scl = 0;
+  14   1      }
+  15          
+  16          void iic_stop() 
+  17          {
+  18   1          iic_sda = 0;
+  19   1          iic_scl = 1;
+  20   1          iic_sda = 1;
+  21   1      }
+  22          
+  23          void iic_send_byte(unsigned char byte)
+  24          {
+  25   1          unsigned char i;
+  26   1          for(i = 0; i < 8; i++)
+  27   1          {
+  28   2              iic_sda = byte & (0x80 >> i);
+  29   2              iic_scl = 1;
+  30   2              iic_scl = 0;
+  31   2          }
+  32   1      }
+  33          
+  34          unsigned char iic_recive_byte()
+  35          {
+  36   1          unsigned char i, byte= 0;
+  37   1          iic_sda = 1;
+  38   1          for(i = 0; i < 8; ++i)
+  39   1          {
+  40   2              iic_scl = 1;
+  41   2              if(iic_sda)
+  42   2              {
+  43   3                  byte |= (0x80 >> i);
+  44   3              }
+  45   2              iic_scl = 0;
+  46   2          }
+  47   1      
+  48   1          return byte;
+  49   1      }
+  50          
+  51          void iic_send_ack(unsigned char ack)
+  52          {
+  53   1          iic_sda = ack;
+C51 COMPILER V9.60.0.0   I2C                                                               05/12/2022 10:43:16 PAGE 2   
+
+  54   1          iic_scl = 1;
+  55   1          iic_scl = 0;
+  56   1      }
+  57          
+  58          unsigned char iic_recive_ack()
+  59          {
+  60   1          unsigned char ack;
+  61   1      
+  62   1          iic_sda = 1;
+  63   1          iic_scl = 1;
+  64   1          ack = iic_sda;
+  65   1          iic_scl = 0;
+  66   1      
+  67   1          return ack;
+  68   1      }
+C51 COMPILER V9.60.0.0   I2C                                                               05/12/2022 10:43:16 PAGE 3   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION iic_start (BEGIN)
+                                           ; SOURCE LINE # 8
+                                           ; SOURCE LINE # 9
+                                           ; SOURCE LINE # 10
+0000 D2A7              SETB    iic_sda
+                                           ; SOURCE LINE # 11
+0002 D2A6              SETB    iic_scl
+                                           ; SOURCE LINE # 12
+0004 C2A7              CLR     iic_sda
+                                           ; SOURCE LINE # 13
+0006 C2A6              CLR     iic_scl
+                                           ; SOURCE LINE # 14
+0008 22                RET     
+             ; FUNCTION iic_start (END)
+
+             ; FUNCTION iic_stop (BEGIN)
+                                           ; SOURCE LINE # 16
+                                           ; SOURCE LINE # 17
+                                           ; SOURCE LINE # 18
+0000 C2A7              CLR     iic_sda
+                                           ; SOURCE LINE # 19
+0002 D2A6              SETB    iic_scl
+                                           ; SOURCE LINE # 20
+0004 D2A7              SETB    iic_sda
+                                           ; SOURCE LINE # 21
+0006 22                RET     
+             ; FUNCTION iic_stop (END)
+
+             ; FUNCTION _iic_send_byte (BEGIN)
+                                           ; SOURCE LINE # 23
+;---- Variable 'byte' assigned to Register 'R5' ----
+0000 AD07              MOV     R5,AR7
+                                           ; SOURCE LINE # 24
+                                           ; SOURCE LINE # 26
+;---- Variable 'i' assigned to Register 'R3' ----
+0002 E4                CLR     A
+0003 FB                MOV     R3,A
+0004         ?C0003:
+0004 EB                MOV     A,R3
+0005 C3                CLR     C
+0006 9408              SUBB    A,#08H
+0008 7480              MOV     A,#080H
+000A 9480              SUBB    A,#080H
+000C 5023              JNC     ?C0006
+                                           ; SOURCE LINE # 27
+                                           ; SOURCE LINE # 28
+000E 7E00              MOV     R6,#00H
+0010 7480              MOV     A,#080H
+0012 A803              MOV     R0,AR3
+0014 08                INC     R0
+0015 8006              SJMP    ?C0015
+0017         ?C0014:
+0017 CE                XCH     A,R6
+0018 A2E7              MOV     C,ACC.7
+001A 13                RRC     A
+001B CE                XCH     A,R6
+001C 13                RRC     A
+001D         ?C0015:
+001D D8F8              DJNZ    R0,?C0014
+C51 COMPILER V9.60.0.0   I2C                                                               05/12/2022 10:43:16 PAGE 4   
+
+001F FF                MOV     R7,A
+0020 ED                MOV     A,R5
+0021 F582              MOV     DPL,A
+0023 EF                MOV     A,R7
+0024 5582              ANL     A,DPL
+0026 24FF              ADD     A,#0FFH
+0028 92A7              MOV     iic_sda,C
+                                           ; SOURCE LINE # 29
+002A D2A6              SETB    iic_scl
+                                           ; SOURCE LINE # 30
+002C C2A6              CLR     iic_scl
+                                           ; SOURCE LINE # 31
+002E 0B                INC     R3
+002F 80D3              SJMP    ?C0003
+                                           ; SOURCE LINE # 32
+0031         ?C0006:
+0031 22                RET     
+             ; FUNCTION _iic_send_byte (END)
+
+             ; FUNCTION iic_recive_byte (BEGIN)
+                                           ; SOURCE LINE # 34
+                                           ; SOURCE LINE # 35
+                                           ; SOURCE LINE # 36
+;---- Variable 'byte' assigned to Register 'R7' ----
+0000 E4                CLR     A
+0001 FF                MOV     R7,A
+                                           ; SOURCE LINE # 37
+0002 D2A7              SETB    iic_sda
+                                           ; SOURCE LINE # 38
+;---- Variable 'i' assigned to Register 'R6' ----
+0004 FE                MOV     R6,A
+0005         ?C0007:
+0005 EE                MOV     A,R6
+0006 C3                CLR     C
+0007 9408              SUBB    A,#08H
+0009 7480              MOV     A,#080H
+000B 9480              SUBB    A,#080H
+000D 5017              JNC     ?C0008
+                                           ; SOURCE LINE # 39
+                                           ; SOURCE LINE # 40
+000F D2A6              SETB    iic_scl
+                                           ; SOURCE LINE # 41
+0011 30A70D            JNB     iic_sda,?C0010
+                                           ; SOURCE LINE # 42
+                                           ; SOURCE LINE # 43
+0014 A806              MOV     R0,AR6
+0016 7480              MOV     A,#080H
+0018 08                INC     R0
+0019 8002              SJMP    ?C0017
+001B         ?C0016:
+001B C3                CLR     C
+001C 13                RRC     A
+001D         ?C0017:
+001D D8FC              DJNZ    R0,?C0016
+001F 4207              ORL     AR7,A
+                                           ; SOURCE LINE # 44
+0021         ?C0010:
+                                           ; SOURCE LINE # 45
+0021 C2A6              CLR     iic_scl
+                                           ; SOURCE LINE # 46
+0023 0E                INC     R6
+0024 80DF              SJMP    ?C0007
+C51 COMPILER V9.60.0.0   I2C                                                               05/12/2022 10:43:16 PAGE 5   
+
+0026         ?C0008:
+                                           ; SOURCE LINE # 48
+                                           ; SOURCE LINE # 49
+0026 22                RET     
+             ; FUNCTION iic_recive_byte (END)
+
+             ; FUNCTION _iic_send_ack (BEGIN)
+                                           ; SOURCE LINE # 51
+;---- Variable 'ack' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 52
+                                           ; SOURCE LINE # 53
+0000 EF                MOV     A,R7
+0001 24FF              ADD     A,#0FFH
+0003 92A7              MOV     iic_sda,C
+                                           ; SOURCE LINE # 54
+0005 D2A6              SETB    iic_scl
+                                           ; SOURCE LINE # 55
+0007 C2A6              CLR     iic_scl
+                                           ; SOURCE LINE # 56
+0009 22                RET     
+             ; FUNCTION _iic_send_ack (END)
+
+             ; FUNCTION iic_recive_ack (BEGIN)
+                                           ; SOURCE LINE # 58
+                                           ; SOURCE LINE # 59
+                                           ; SOURCE LINE # 62
+0000 D2A7              SETB    iic_sda
+                                           ; SOURCE LINE # 63
+0002 D2A6              SETB    iic_scl
+                                           ; SOURCE LINE # 64
+0004 A2A7              MOV     C,iic_sda
+0006 E4                CLR     A
+0007 33                RLC     A
+0008 FF                MOV     R7,A
+;---- Variable 'ack' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 65
+0009 C2A6              CLR     iic_scl
+                                           ; SOURCE LINE # 67
+                                           ; SOURCE LINE # 68
+000B 22                RET     
+             ; FUNCTION iic_recive_ack (END)
+
+C51 COMPILER V9.60.0.0   I2C                                                               05/12/2022 10:43:16 PAGE 6   
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+P0 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0080H  1
+P1 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0090H  1
+P2 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A0H  1
+P3 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B0H  1
+T0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B4H  1
+AC . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D6H  1
+T1 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B5H  1
+T2 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0090H  1
+EA . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AFH  1
+IE . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A8H  1
+EXF2 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CEH  1
+RD . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B7H  1
+ES . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ACH  1
+IP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B8H  1
+RI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0098H  1
+INT0 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B2H  1
+CY . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D7H  1
+TI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0099H  1
+INT1 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B3H  1
+RCAP2H . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CBH  1
+PS . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BCH  1
+SP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0081H  1
+T2EX . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0091H  1
+OV . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D2H  1
+RCAP2L . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CAH  1
+C_T2 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C9H  1
+WR . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B6H  1
+iic_recive_ack . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  ack. . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+RCLK . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CDH  1
+TCLK . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CCH  1
+iic_recive_byte. . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  i. . . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0006H  1
+  byte . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+SBUF . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0099H  1
+PCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0087H  1
+SCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0098H  1
+TMOD . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0089H  1
+TCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0088H  1
+IE0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0089H  1
+IE1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008BH  1
+B. . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F0H  1
+CP_RL2 . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C8H  1
+ACC. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00E0H  1
+iic_start. . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+ET0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A9H  1
+ET1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ABH  1
+TF0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008DH  1
+ET2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ADH  1
+TF1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008FH  1
+TF2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CFH  1
+RB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009AH  1
+TH0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008CH  1
+EX0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A8H  1
+IT0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0088H  1
+TH1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008DH  1
+TB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009BH  1
+C51 COMPILER V9.60.0.0   I2C                                                               05/12/2022 10:43:16 PAGE 7   
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+EX1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AAH  1
+IT1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008AH  1
+TH2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CDH  1
+P. . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D0H  1
+iic_sda. . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A7H  1
+SM0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009FH  1
+TL0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008AH  1
+SM1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009EH  1
+TL1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008BH  1
+SM2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009DH  1
+TL2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CCH  1
+PT0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B9H  1
+_iic_send_ack. . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  ack. . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+PT1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BBH  1
+RS0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D3H  1
+PT2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BDH  1
+TR0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008CH  1
+RS1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D4H  1
+TR1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008EH  1
+TR2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CAH  1
+PX0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B8H  1
+PX1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BAH  1
+iic_scl. . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A6H  1
+_iic_send_byte . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  byte . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0005H  1
+  i. . . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0003H  1
+DPH. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0083H  1
+iic_stop . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+DPL. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0082H  1
+EXEN2. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CBH  1
+REN. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009CH  1
+T2CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C8H  1
+RXD. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B0H  1
+TXD. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B1H  1
+F0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D5H  1
+PSW. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D0H  1
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    127    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

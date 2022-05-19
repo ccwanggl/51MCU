@@ -1,0 +1,3 @@
+
+.\build\Debug\src\main.o TO .\build\Debug\Timer0_mode3
+PRINT(.\build\Debug\Timer0_mode3.map) REMOVEUNUSED

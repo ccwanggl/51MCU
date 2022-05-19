@@ -1,0 +1,13 @@
+C51 COMPILER V9.60.0.0   MIAN                                                              12/14/2021 11:15:13 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MIAN
+OBJECT MODULE PLACED IN .\Objects\mian.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE mian.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\mian
+                    -.lst) TABS(2) OBJECT(.\Objects\mian.obj)
+
+line level    source
+
+*** ERROR C318 OF mian.c: can't open file 'mian.c'
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  1 ERROR(S)
