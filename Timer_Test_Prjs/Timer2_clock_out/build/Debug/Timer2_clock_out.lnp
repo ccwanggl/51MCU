@@ -1,0 +1,3 @@
+
+.\build\Debug\src\main.o TO .\build\Debug\Timer2_clock_out
+PRINT(.\build\Debug\Timer2_clock_out.map) REMOVEUNUSED
