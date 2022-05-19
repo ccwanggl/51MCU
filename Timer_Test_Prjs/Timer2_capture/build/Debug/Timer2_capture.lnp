@@ -1,0 +1,3 @@
+
+.\build\Debug\src\main.o TO .\build\Debug\Timer2_capture
+PRINT(.\build\Debug\Timer2_capture.map) REMOVEUNUSED
